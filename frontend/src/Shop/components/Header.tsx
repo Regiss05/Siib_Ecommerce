@@ -64,7 +64,7 @@ const headerStyle: CSSProperties = {
   backgroundImage: "linear-gradient(to bottom,rgb(22, 18, 124), #362FFF)", // Gradient from pink to orange
   color: "white",
   padding: "20px",
-  height: '27vh',
+  height: '18vh',
   borderBottomRightRadius: '30px',
   borderBottomLeftRadius: '30px',
 };
@@ -125,21 +125,24 @@ export default function Header(props: Props) {
 
   return (
     <header style={headerStyle}>
-      <div>
-        {props.user === null ? (
-          <button onClick={props.onSignIn}>Sign in</button>
-        ) : (
-          <div>
-            @{props.user.username} <button type="button" onClick={props.onSignOut}>Sign out</button>
-          </div>
-        )}
-      </div>
+      <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px'}}>
+        <div>
+          {props.user === null ? (
+            <button onClick={props.onSignIn}>Sign in</button>
+          ) : (
+            <div>
+              @{props.user.username} <button type="button" onClick={props.onSignOut}>Sign out</button>
+            </div>
+          )}
+        </div>
+        <img className="icohome" src={luangage} alt="language" />
+      </Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box sx={{ fontSize: '18px', color: '#eeecfe' }}>
           Hello, <img className='handico waving-hand' src={hand} alt="hand" />
           <div>@ Regiss</div>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           <img className="icohome" src={luangage} alt="language" />
           <img className="icohome" src={shopsloc} alt="shopsloc" />
         </Box>

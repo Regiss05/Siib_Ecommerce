@@ -42,14 +42,14 @@ export default function ImageSlider() {
               <img
                 src={step.imgPath}
                 alt={step.label}
-                style={{ width: "100%", borderRadius: "10px" }}
+                style={{ width: "70%", borderRadius: "10px" }}
               />
             ) : null}
           </div>
         ))}
       </SwipeableViews>
 
-      <MobileStepper
+      {/* <MobileStepper
         steps={maxSteps}
         position="static"
         activeStep={activeStep}
@@ -63,7 +63,7 @@ export default function ImageSlider() {
             <KeyboardArrowLeft /> Back
           </Button>
         }
-      />
+      /> */}
     </Box>
   );
 }

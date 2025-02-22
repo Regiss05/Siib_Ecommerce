@@ -20,6 +20,10 @@ body {
   display: inline-block;
 }
 
+.icocat {
+  width: 50px;
+}
+
 @keyframes wave-animation {
   0% {
     transform: rotate(0.0deg)
