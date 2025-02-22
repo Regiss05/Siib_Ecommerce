@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import Stack from '@mui/material/Stack';
 import { Box, styled } from "@mui/material";
 import Cathegories from './components/Cathegories';
+import Products from './components/Products';
 
 // import bgdk from '../imges/statics/header-bg.svg'
 
@@ -133,9 +134,10 @@ export default function Shop() {
   }
 
   return (
-    <>
+    <Box>
       <Header user={user} onSignIn={signIn} onSignOut={signOut} />
       <Cathegories />
+      <Products />
       {/* <Route path="/" element={<ButtonSlider />} /> */}
       {/* <Box sx={{ bgcolor: 'primary.main' }}>Contained</Box> */}
       {/* <div className="flex justify-center items-center h-screen bg-red-100">
@@ -159,6 +161,6 @@ export default function Shop() {
       /> */}
 
       {showModal && <SignIn onSignIn={signIn} onModalClose={onModalClose} />}
-    </>
+    </Box>
   );
 }

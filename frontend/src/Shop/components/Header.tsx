@@ -135,13 +135,13 @@ export default function Header(props: Props) {
         )}
       </div>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Box sx={{ fontSize: '23px', color: '#eeecfe' }}>
-          Hello, <img src={hand} alt="hand" />
+        <Box sx={{ fontSize: '18px', color: '#eeecfe' }}>
+          Hello, <img className='handico waving-hand' src={hand} alt="hand" />
           <div>@ Regiss</div>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <img src={luangage} alt="language" />
-          <img src={shopsloc} alt="shopsloc" />
+          <img className="icohome" src={luangage} alt="language" />
+          <img className="icohome" src={shopsloc} alt="shopsloc" />
         </Box>
       </Box>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }}>

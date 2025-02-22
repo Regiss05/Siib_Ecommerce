@@ -14,19 +14,19 @@ export default function Cathegories() {
         <Button sx={{ color: "#362FFF", fontweight: "black" }}>See All</Button>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginTop: "10px", color: "gray" }}>
-        <Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img src={clothes} alt="clothes" /></Button>
           Clothes
         </Box>
-        <Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img src={electronics} alt="Electronics" /></Button>
           Electronics
         </Box>
-        <Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img src={shoes} alt="clothes" /></Button>
           Shoes
         </Box>
-        <Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img src={house} alt="House" /></Button>
           Houses
         </Box>
