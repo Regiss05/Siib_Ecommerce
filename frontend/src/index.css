@@ -20,6 +20,12 @@ body {
   display: inline-block;
 }
 
+.cardforyou {
+  text-align: left;
+  margin: auto 20px;
+  margin-top: 20px;
+}
+
 .icocat {
   width: 50px;
 }

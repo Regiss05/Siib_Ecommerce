@@ -31,6 +31,7 @@ export default function ImageSlider() {
 
   return (
     <Box sx={{ maxWidth: 800, flexGrow: 1, margin: "auto", textAlign: "center" }}>
+      <h4 className="cardforyou">#Cardforyou</h4>
       <SwipeableViews
         index={activeStep}
         onChangeIndex={setActiveStep}

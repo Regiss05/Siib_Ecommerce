@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import { Box, styled } from "@mui/material";
 import Cathegories from './components/Cathegories';
 import Products from './components/Products';
+import ImageSlider from './components/ImageSlider';
 
 // import bgdk from '../imges/statics/header-bg.svg'
 
@@ -137,6 +138,7 @@ export default function Shop() {
     <Box>
       <Header user={user} onSignIn={signIn} onSignOut={signOut} />
       <Cathegories />
+      <ImageSlider />
       <Products />
       {/* <Route path="/" element={<ButtonSlider />} /> */}
       {/* <Box sx={{ bgcolor: 'primary.main' }}>Contained</Box> */}

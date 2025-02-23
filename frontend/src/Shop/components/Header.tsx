@@ -17,7 +17,6 @@ import shopsloc from '../../imges/statics/shopsloc.svg';
 import hand from '../../imges/statics/hand.svg';
 import { ClassNames } from "@emotion/react";
 import Box from '@mui/material/Box';
-import ImageSlider from "./ImageSlider";
 
 const Search = styled('div')(() => ({
   position: 'relative',
@@ -186,7 +185,6 @@ export default function Header(props: Props) {
           </StyledMenu>
         </div>
       </div>
-      <ImageSlider />
     </header>
   );
 }

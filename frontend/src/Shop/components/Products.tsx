@@ -14,7 +14,7 @@ export default function Products() {
     <Box sx={{ color: "gray", margin: "0 30px" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ fontSize: "14px" }}>PRODUCTS</Box>
-        <Button>See All</Button>
+        {/* <Button>See All</Button> */}
       </Box>
       <Box
         sx={{

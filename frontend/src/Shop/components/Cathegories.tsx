@@ -8,12 +8,12 @@ import house from "../../imges/statics/house.svg";
 
 export default function Cathegories() {
   return (
-    <Box sx={{ margin: "20px", marginTop: "20vh", fontSize: "12px" }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button sx={{ fontweight: "black", color: "gray", fontSize: "14px" }}>Cathegories</Button>
+    <Box sx={{ margin: "5px 20px", fontSize: "12px" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box sx={{ fontSize: "14px", color: "gray" }}>CATEGORIES</Box>
         <Button sx={{ color: "#362FFF", fontweight: "black" }}>See All</Button>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginTop: "10px", color: "gray" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", color: "gray" }}>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img className="icocat" src={clothes} alt="clothes" /></Button>
           Clothes
