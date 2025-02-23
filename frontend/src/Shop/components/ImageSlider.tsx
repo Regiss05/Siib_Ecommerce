@@ -43,7 +43,7 @@ export default function ImageSlider() {
               <img
                 src={step.imgPath}
                 alt={step.label}
-                style={{ width: "70%", borderRadius: "10px" }}
+                style={{ width: "60%", borderRadius: "10px" }}
               />
             ) : null}
           </div>

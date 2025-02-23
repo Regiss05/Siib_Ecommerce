@@ -10,6 +10,7 @@ import { Box, styled } from "@mui/material";
 import Cathegories from './components/Cathegories';
 import Products from './components/Products';
 import ImageSlider from './components/ImageSlider';
+import Footer from './components/Footer';
 
 // import bgdk from '../imges/statics/header-bg.svg'
 
@@ -140,6 +141,8 @@ export default function Shop() {
       <Cathegories />
       <ImageSlider />
       <Products />
+      <Footer />
+      {/* <Button onClick={signIn}>Sign in</Button>
       {/* <Route path="/" element={<ButtonSlider />} /> */}
       {/* <Box sx={{ bgcolor: 'primary.main' }}>Contained</Box> */}
       {/* <div className="flex justify-center items-center h-screen bg-red-100">
