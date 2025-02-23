@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -8,6 +9,30 @@ import ChatIcon from "@mui/icons-material/Chat";
 
 export default function Footer() {
   const [value, setValue] = useState(0);
+  const navigate = useNavigate(); // Hook to navigate between pages
+
+  const handleChange = (_: any, newValue: number) => {
+    setValue(newValue);
+    switch (newValue) {
+      case 0:
+        navigate("/");
+        break;
+      case 1:
+        navigate("/favorite");
+        break;
+      case 2:
+        navigate("/add");
+        break;
+      case 3:
+        navigate("/cart");
+        break;
+      case 4:
+        navigate("/chat");
+        break;
+      default:
+        navigate("/");
+    }
+  };
 
   return (
     <Paper
@@ -21,11 +46,7 @@ export default function Footer() {
       }}
       elevation={3}
     >
-      <BottomNavigation
-        value={value}
-        onChange={(_, newValue) => setValue(newValue)}
-        showLabels
-      >
+      <BottomNavigation value={value} onChange={handleChange} showLabels>
         <BottomNavigationAction
           label="Home"
           icon={<HomeIcon />}
