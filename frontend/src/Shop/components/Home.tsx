@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProductCard from "./ProductCard";
 import SignIn from "./SignIn";
@@ -130,6 +130,25 @@ export default function Home() {
     }
   }
 
+  interface Product {
+    id_image: number;
+    image: string;
+  }
+
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    axiosClient.get('http://localhost:27017/siib_db/products/')
+      .then(response => {
+        if (response.data) {
+          setProducts(response.data);
+        }
+      })
+      .catch(error => console.error("Error fetching products:", error));
+  }, []);
+  console.log("-------------------------------------------------------")
+  console.log(products)
+
   return (
     <Box>
       <Header user={user} onSignIn={signIn} onSignOut={signOut} />
@@ -159,6 +178,18 @@ export default function Home() {
         pictureCaption="Picture by Sistak - https://www.flickr.com/photos/94801434@N00/5134246283, CC BY-SA 2.0"
         onClickBuy={() => orderProduct("Order Lemon Meringue Pie", 0.005, { productId: 'lemon_pie_1' })}
       /> */}
+
+      {products.map(product => (
+        <ProductCard
+          key={product.id_image}
+          name={`Product ${product.id_image}`}
+          description={`Image: ${product.image}`}
+          price={0.01} 
+          pictureURL={product.image}
+          pictureCaption="Picture Caption"
+          onClickBuy={() => orderProduct(`Order Product ${product.id_image}`, 0.01, product.id_image)}
+        />
+      ))}
 
       {showModal && <SignIn onSignIn={signIn} onModalClose={onModalClose} />}
     </Box>
