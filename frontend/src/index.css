@@ -30,6 +30,29 @@ body {
   width: 50px;
 }
 
+.userlogin {
+  color: #FF9A00;
+  font-weight: bold;
+}
+
+.signin {
+  background-color: #FF9A00;
+  color: white;
+  padding: 8px !important;
+  outline: none;
+  border-radius: 10px;
+  border: none;
+}
+
+.signout {
+  background-color: white;
+  color: gray;
+  padding: 8px !important;
+  outline: none;
+  border-radius: 10px;
+  border: none;
+}
+
 @keyframes wave-animation {
   0% {
     transform: rotate(0.0deg)

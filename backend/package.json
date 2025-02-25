@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "description": "A demo app to showcase usage of the Pi App Platform.",
+
   "author": {
     "name": "Pi Core Team"
   },
