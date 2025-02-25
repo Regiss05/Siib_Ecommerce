@@ -25,8 +25,6 @@ const mongoClientOptions = {
     password: env.mongo_password,
   },
 }
-
-
 //
 // I. Initialize and set up the express app and various middlewares and packages:
 //
