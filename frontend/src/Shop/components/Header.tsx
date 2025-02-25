@@ -127,10 +127,10 @@ export default function Header(props: Props) {
       <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px'}}>
         <div>
           {props.user === null ? (
-            <button onClick={props.onSignIn}>Sign in</button>
+            <button className="signin" onClick={props.onSignIn}>Sign in</button>
           ) : (
             <div>
-              @{props.user.username} <button type="button" onClick={props.onSignOut}>Sign out</button>
+              <button className="signout" type="button" onClick={props.onSignOut}>Sign out</button>
             </div>
           )}
         </div>
@@ -139,7 +139,15 @@ export default function Header(props: Props) {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box sx={{ fontSize: '18px', color: '#eeecfe' }}>
           Hello, <img className='handico waving-hand' src={hand} alt="hand" />
-          <div>@ Regiss</div>
+          <div>
+          {props.user === null ? (
+            <div>Dear</div>
+          ) : (
+            <div className="userlogin">
+              @{props.user.username}
+            </div>
+          )}
+        </div>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
           <img className="icohome" src={luangage} alt="language" />
