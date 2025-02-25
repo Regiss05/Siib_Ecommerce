@@ -15,20 +15,20 @@ export default function Cathegories() {
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", color: "gray" }}>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Button><img className="icocat" src={house} alt="House" /></Button>
+          Houses
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Button><img className="icocat" src={shoes} alt="clothes" /></Button>
+          Cars
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img className="icocat" src={clothes} alt="clothes" /></Button>
           Clothes
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <Button><img className="icocat" src={electronics} alt="Electronics" /></Button>
           Electronics
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Button><img className="icocat" src={shoes} alt="clothes" /></Button>
-          Shoes
-        </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Button><img className="icocat" src={house} alt="House" /></Button>
-          Houses
         </Box>
       </Box>
     </Box>

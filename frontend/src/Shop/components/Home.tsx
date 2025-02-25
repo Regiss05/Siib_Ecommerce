@@ -10,6 +10,7 @@ import Cathegories from "./Cathegories";
 import Products from "./Products";
 import ImageSlider from "./ImageSlider";
 // import ProductCard from './ProductCard';
+import MyCard from './MyCard';
 
 type MyPaymentMetadata = {};
 
@@ -155,6 +156,7 @@ export default function Home() {
       <Cathegories />
       <ImageSlider />
       <Products />
+      <MyCard />
       {/* <Footer /> */}
       {/* <Button onClick={signIn}>Sign in</Button>
       {/* <Route path="/" element={<ButtonSlider />} /> */}
@@ -162,14 +164,14 @@ export default function Home() {
       {/* <div className="flex justify-center items-center h-screen bg-red-100">
         <h1 className="text-blue-500">Hello, Tailwind CSS!</h1>
       </div> */}
-      <ProductCard
+      {/* <ProductCard
         name="Apple Pie"
         description="You know what this is. Pie. Apples. Apple pie."
         price={0.002}
         pictureURL="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Apple_pie.jpg/1280px-Apple_pie.jpg"
         pictureCaption="Picture by Dan Parsons - https://www.flickr.com/photos/dan90266/42759561/, CC BY-SA 2.0, https://commons.wikimedia.org/w/index.php?curid=323125"
         onClickBuy={() => orderProduct("Order Apple Pie", 0.002, { productId: 'apple_pie_1' })}
-      />
+      /> */}
       {/* <ProductCard
         name="Lemon Meringue Pie"
         description="Non-contractual picture. We might have used oranges because we had no lemons. Order at your own risk."
