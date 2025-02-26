@@ -1,7 +1,8 @@
 import React from "react";
+import TextAnimation from "./TextAnimation"; // Ensure the import is correct
 
 const Cart = () => {
-  return <h1>Cart Page</h1>;
+  return <TextAnimation />; // Use uppercase "TextAnimation"
 };
 
 export default Cart;

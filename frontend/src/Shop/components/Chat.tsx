@@ -1,7 +1,8 @@
 import React from "react";
+import TextAnimation from "./TextAnimation"; // Ensure the import is correct
 
-const Chat = () => {
-  return <h1>Chat Page</h1>;
+const Chart = () => {
+  return <TextAnimation />; // Use uppercase "TextAnimation"
 };
 
-export default Chat;
+export default Chart;
