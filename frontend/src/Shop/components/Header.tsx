@@ -12,6 +12,12 @@ import shopsloc from '../../imges/statics/shopsloc.svg';
 import hand from '../../imges/statics/hand.svg';
 import Box from '@mui/material/Box';
 import locationshop from '../../imges/statics/locationshop.svg';
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+// import { useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+// import { useNavigate } from "react-router-dom";
+// const navigate = useNavigate();
+
 
 const Search = styled('div')(() => ({
   position: 'relative',
@@ -32,7 +38,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: 'gray',
+  width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -62,6 +69,7 @@ export default function Header(props: Props) {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -96,8 +104,10 @@ export default function Header(props: Props) {
           </div>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          <IconButton onClick={() => navigate("/favorite")} sx={{ padding: 0 }}>
+            <img className="icohome" src={shopsloc} alt="shopsloc" />
+          </IconButton>
           <img className="icohome" src={locationshop} alt="sort" />
-          <img className="icohome" src={shopsloc} alt="shopsloc" />
         </Box>
       </Box>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }}>
