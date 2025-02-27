@@ -7,34 +7,49 @@
   "language": "Langue",
   "english": "Anglais",
   "french": "Français",
-
   "categories": "CATÉGORIES",
-  "seeAll": "Voir Tout",
+  "seeAll": "Voir tout",
   "houses": "Maisons",
   "cars": "Voitures",
   "clothes": "Vêtements",
   "electronics": "Électronique",
-
-  "products": "PRODUITS",
+  "products": "PRODUITS",  
   "all": "Tous",
-  "siibBurundi": "SIIB Boutique Burundi",
-  "siibTanzania": "SIIB Boutique Tanzanie",
-  "siibRwanda": "SIIB Boutique Rwanda",
-  "siibCongo": "SIIB Boutique Congo",
-  "siibBenin": "SIIB Boutique Bénin",
-  "siibSouthAfrica": "SIIB Boutique Afrique du Sud",
-  "siibIvoryCost": "SIIB Boutique Côte d'Ivoire",
+  "siibBurundi": "Boutique SIIB Burundi",
+  "siibTanzania": "Boutique SIIB Tanzanie",
+  "siibCongo": "Boutique SIIB Congo",
+  "siibRwanda": "Boutique SIIB Rwanda",
+  "siibBenin": "Boutique SIIB Bénin",
+  "siibSouthAfrica": "Boutique SIIB Afrique du Sud",
+  "siibIvoryCost": "Boutique SIIB Côte d'Ivoire",
   "others": "Autres",
-
   "new": "Nouveau",
-  "products": [
-    { "id": 1, "name": "Voiture 1", "shop": "SIIB CÔTE D'IVOIRE" },
-    { "id": 2, "name": "Voiture 2", "shop": "SIIB CÔTE D'IVOIRE" },
-    { "id": 3, "name": "Voiture 3", "shop": "SIIB BURUNDI" },
-    { "id": 4, "name": "Montre intelligente", "shop": "SIIB BURUNDI" },
-    { "id": 5, "name": "Caméra", "shop": "SIIB BURUNDI" }
+
+  "productsList": [ 
+    {
+      "id": 1,
+      "name": "Voiture 1",
+      "shop": "SIIB CÔTE D'IVOIRE"
+    },
+    {
+      "id": 2,
+      "name": "Voiture 2",
+      "shop": "SIIB CÔTE D'IVOIRE"
+    },
+    {
+      "id": 3,
+      "name": "Voiture 3",
+      "shop": "SIIB BURUNDI"
+    },
+    {
+      "id": 4,
+      "name": "Montre intelligente",
+      "shop": "SIIB BURUNDI"
+    },
+    {
+      "id": 5,
+      "name": "Caméra",
+      "shop": "SIIB BURUNDI"
+    }
   ]
 }
-
-
-
