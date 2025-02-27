@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+// import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ChatIcon from "@mui/icons-material/Chat";
+import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 
 export default function Footer() {
   const [value, setValue] = useState(0);
@@ -53,8 +54,8 @@ export default function Footer() {
           sx={{ "&.Mui-selected": { color: "#362fff" } }}
         />
         <BottomNavigationAction
-          label="Favorite"
-          icon={<FavoriteBorderIcon />}
+          label="Shops"
+          icon={<StoreOutlinedIcon />}
           sx={{ "&.Mui-selected": { color: "#362fff" } }}
         />
         <BottomNavigationAction

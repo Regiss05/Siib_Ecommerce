@@ -4,6 +4,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.header {
+  background-image: url(../src/imges/statics/header.png);
+}
+
 .icohome {
   width: 40px;
 }

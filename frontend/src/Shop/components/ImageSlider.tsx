@@ -5,8 +5,11 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 const images = [
   { label: "Image 1", imgPath: "https://vehicle-images.dealerinspire.com/595e-11002730/SALK19F41SA277136/2d2948d25fc135e0532b51fa686e3608.png" },
-  { label: "Image 2", imgPath: "https://vehicle-images.dealerinspire.com/595e-11002730/SALK19F41SA277136/2d2948d25fc135e0532b51fa686e3608.png" },
-  { label: "Image 3", imgPath: "https://vehicle-images.dealerinspire.com/595e-11002730/SALK19F41SA277136/2d2948d25fc135e0532b51fa686e3608.png" },
+  { label: "Image 1", imgPath: "https://img.freepik.com/premium-photo/hummer-car-from-front-isolated-white-background_725455-272.jpg?ga=GA1.1.638317358.1740652806&semt=ais_hybrid" },
+  { label: "Image 1", imgPath: "https://img.freepik.com/free-psd/view-crossroad-car_23-2151780963.jpg?ga=GA1.1.638317358.1740652806&semt=ais_hybrid" },
+  { label: "Image 1", imgPath: "https://img.freepik.com/premium-photo/3d-car-white-background_677136-9808.jpg?ga=GA1.1.638317358.1740652806&semt=ais_hybrid" },
+  { label: "Image 1", imgPath: "https://img.freepik.com/premium-vector/car-art-3d-4x4-vector-template-element-sign-symbol-logo-template-vector-graphic-design-illustration_621257-95.jpg?ga=GA1.1.638317358.1740652806&semt=ais_hybrid" },
+
 ];
 
 export default function ImageSlider() {
@@ -17,7 +20,7 @@ export default function ImageSlider() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveStep((prevStep) => (prevStep + 1) % maxSteps);
-    }, 5000);
+    }, 60000);
     return () => clearInterval(interval); // Cleanup on unmount
   }, [maxSteps]);
 
@@ -43,7 +46,7 @@ export default function ImageSlider() {
               <img
                 src={step.imgPath}
                 alt={step.label}
-                style={{ width: "60%", borderRadius: "10px" }}
+                style={{ width: "65%", borderRadius: "10px" }}
               />
             ) : null}
           </div>

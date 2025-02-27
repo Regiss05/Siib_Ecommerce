@@ -17,6 +17,7 @@ import shopsloc from '../../imges/statics/shopsloc.svg';
 import hand from '../../imges/statics/hand.svg';
 import { ClassNames } from "@emotion/react";
 import Box from '@mui/material/Box';
+import locationshop from '../../imges/statics/locationshop.svg';
 
 const Search = styled('div')(() => ({
   position: 'relative',
@@ -60,7 +61,6 @@ interface Props {
 }
 
 const headerStyle: CSSProperties = {
-  backgroundImage: "linear-gradient(to bottom,rgb(22, 18, 124), #362FFF)", // Gradient from pink to orange
   color: "white",
   padding: "20px",
   height: '18vh',
@@ -123,7 +123,7 @@ export default function Header(props: Props) {
   };
 
   return (
-    <header style={headerStyle}>
+    <header style={headerStyle} className="header">
       <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px'}}>
         <div>
           {props.user === null ? (
@@ -150,7 +150,7 @@ export default function Header(props: Props) {
         </div>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          <img className="icohome" src={luangage} alt="language" />
+          <img className="icohome" src={locationshop} alt="sort" />
           <img className="icohome" src={shopsloc} alt="shopsloc" />
         </Box>
       </Box>
