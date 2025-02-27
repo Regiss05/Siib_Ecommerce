@@ -42,7 +42,7 @@ export default function Products() {
             key={key}
             sx={{
               backgroundColor: activeButton === key ? "blue" : "#eeeeee",
-              color: activeButton === key ? "white" : "black",
+              color: activeButton === key ? "white" : "#454545",
               borderRadius: "20px",
               whiteSpace: "nowrap",
               minWidth: "auto",
