@@ -88,3 +88,12 @@ body {
     transform: rotate(0.0deg)
   }
 }
+
+@keyframes slide {
+  0% {
+    transform: translateX(-200px); /* Start off-screen */
+  }
+  100% {
+    transform: translateX(calc(100vw + 200px)); /* Move to the right edge of the screen */
+  }
+}
