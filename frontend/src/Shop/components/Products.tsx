@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 export default function Products() {
+  const { t } = useTranslation(); // Get translation function
+
   // State to track the active button
   const [activeButton, setActiveButton] = useState<string>("All");
 
@@ -13,8 +16,7 @@ export default function Products() {
   return (
     <Box sx={{ color: "gray", margin: "0 30px" }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ fontSize: "14px" }}>PRODUCTS</Box>
-        {/* <Button>See All</Button> */}
+        <Box sx={{ fontSize: "14px" }}>{t("products")}</Box>
       </Box>
       <Box
         sx={{
@@ -26,24 +28,28 @@ export default function Products() {
         }}
       >
         {[
-          "All",
-          "SIIB Burundi Shop",
-          "SIIB Tanzania Shop",
-          "SIIB Benin Shop",
-          "SIIB Africa Shop",
-        ].map((label) => (
+          { key: "all", label: t("all") },
+          { key: "siibBurundi", label: t("siibBurundi") },
+          { key: "siibTanzania", label: t("siibTanzania") },
+          { key: "siibCongo", label: t("siibCongo") },
+          { key: "siibRwanda", label: t("siibRwanda") },
+          { key: "siibBenin", label: t("siibBenin") },
+          { key: "siibSouthAfrica", label: t("siibSouthAfrica") },
+          { key: "siibIvoryCost", label: t("siibIvoryCost") },
+          { key: "others", label: t("others") },
+        ].map(({ key, label }) => (
           <Button
-            key={label}
+            key={key}
             sx={{
-              backgroundColor: activeButton === label ? "blue" : "#eeeeee",
-              color: activeButton === label ? "white" : "black",
+              backgroundColor: activeButton === key ? "blue" : "#eeeeee",
+              color: activeButton === key ? "white" : "black",
               borderRadius: "20px",
-              whiteSpace: "nowrap", // Prevent text from wrapping
-              minWidth: "auto", // Ensures button width is based on content
-              padding: "5px 10px", // Remove size constraints
-              fontSize: "11px", // Uses default font size
+              whiteSpace: "nowrap",
+              minWidth: "auto",
+              padding: "5px 10px",
+              fontSize: "11px",
             }}
-            onClick={() => handleButtonClick(label)}
+            onClick={() => handleButtonClick(key)}
           >
             {label}
           </Button>
