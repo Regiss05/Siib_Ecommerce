@@ -1,10 +1,10 @@
 import React, { CSSProperties, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { User } from "./Home";
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import Menu, { MenuProps } from '@mui/material/Menu';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from "@mui/material";
 import languageIcon from '../../imges/statics/language.svg';
@@ -12,12 +12,8 @@ import shopsloc from '../../imges/statics/shopsloc.svg';
 import hand from '../../imges/statics/hand.svg';
 import Box from '@mui/material/Box';
 import locationshop from '../../imges/statics/locationshop.svg';
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
-// import { useNavigate } from "react-router-dom";
-// const navigate = useNavigate();
-
 
 const Search = styled('div')(() => ({
   position: 'relative',
