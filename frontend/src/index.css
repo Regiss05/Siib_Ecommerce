@@ -6,6 +6,9 @@ body {
 
 .header {
   background-image: url(../src/imges/statics/header.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 11rem;
 }
 
 .icohome {

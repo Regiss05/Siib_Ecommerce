@@ -7,32 +7,49 @@
   "language": "Language",
   "english": "English",
   "french": "French",
-
   "categories": "CATEGORIES",
   "seeAll": "See All",
   "houses": "Houses",
   "cars": "Cars",
   "clothes": "Clothes",
   "electronics": "Electronics",
-
-  "products": "PRODUCTS",
+  "products": "PRODUCTS",  
   "all": "All",
   "siibBurundi": "SIIB Burundi Shop",
   "siibTanzania": "SIIB Tanzania Shop",
-  "siibRwanda": "SIIB Rwanda Shop",
   "siibCongo": "SIIB Congo Shop",
+  "siibRwanda": "SIIB Rwanda Shop",
   "siibBenin": "SIIB Benin Shop",
   "siibSouthAfrica": "SIIB South Africa Shop",
   "siibIvoryCost": "SIIB Ivory Coast Shop",
   "others": "Others",
-
   "new": "New",
-  "products": [
-    { "id": 1, "name": "Car 1", "shop": "SIIB IVORY COST" },
-    { "id": 2, "name": "Car 2", "shop": "SIIB IVORY COST" },
-    { "id": 3, "name": "Car 3", "shop": "SIIB BURUNDI" },
-    { "id": 4, "name": "Smartwatch", "shop": "SIIB BURUNDI" },
-    { "id": 5, "name": "Camera", "shop": "SIIB BURUNDI" }
+
+  "productsList": [  
+    {
+      "id": 1,
+      "name": "Car 1",
+      "shop": "SIIB IVORY COST"
+    },
+    {
+      "id": 2,
+      "name": "Car 2",
+      "shop": "SIIB IVORY COST"
+    },
+    {
+      "id": 3,
+      "name": "Car 3",
+      "shop": "SIIB BURUNDI"
+    },
+    {
+      "id": 4,
+      "name": "Smartwatch",
+      "shop": "SIIB BURUNDI"
+    },
+    {
+      "id": 5,
+      "name": "Camera",
+      "shop": "SIIB BURUNDI"
+    }
   ]
 }
-

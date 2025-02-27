@@ -53,7 +53,7 @@ interface Props {
 const headerStyle: CSSProperties = {
   color: "white",
   padding: "20px",
-  height: '18vh',
+  // height: '18rem',
   borderBottomRightRadius: '30px',
   borderBottomLeftRadius: '30px',
 };
