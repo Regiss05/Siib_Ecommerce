@@ -6,8 +6,11 @@ import Cart from "./components/Cart";
 import Chat from "./components/Chat";
 import AddItem from "./components/AddItem";
 import Footer from "./components/Footer";
+import { useTranslation } from "react-i18next";
 
 export default function App() {
+  useTranslation(); // Ensure the useTranslation hook is called
+  
   return (
     <>
       <Routes> {/* Wrap the routes inside the Routes component */}
