@@ -18,7 +18,7 @@ import productRoutes from '../routes/products';
 import "./types/session";
 
 const dbName = env.mongo_db_name;
-const mongoUri = `mongodb://${env.mongo_host}/${dbName}`;
+const mongoUri = `mongodb+srv://${env.mongo_host}/${dbName}`;
 const mongoClientOptions = {
   authSource: "admin",
   auth: {
