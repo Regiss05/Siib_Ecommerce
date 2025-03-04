@@ -10,7 +10,7 @@ import { MongoClient } from 'mongodb';
 import env from './environments';
 import mountPaymentsEndpoints from './handlers/payments';
 import mountUserEndpoints from './handlers/users';
-import productRoutes from '../routes/products';
+// import productRoutes from '../routes/products';
 
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
 // have no problem here)
@@ -85,7 +85,7 @@ app.get('/', async (_, res) => {
   res.status(200).send({ message: "Hello, World!" });
 });
 
-app.use('/api/products', productRoutes);
+// app.use('/api/products', productRoutes);
 
 
 // III. Boot up the app:
