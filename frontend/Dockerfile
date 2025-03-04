@@ -2,7 +2,7 @@
 ## BUILDER CONTAINER
 ##
 
-FROM node:12.20.0 as builder
+FROM node:20 as builder
 
 RUN mkdir /app
 
