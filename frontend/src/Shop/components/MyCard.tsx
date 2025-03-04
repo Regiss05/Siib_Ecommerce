@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card, CardMedia, CardContent, IconButton, Typography, Box,Grid } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate } from "react-router-dom";
 import carv8 from '../../imges/statics/v8card.jpeg';
 import car1 from '../../imges/statics/car1.jpg';
 import car2 from '../../imges/statics/car2.jpg';
@@ -119,6 +120,15 @@ export default function MyCard() {
   // const handleFavoriteClick = () => {
   //   setIsFavorite(!isFavorite);
   // };
+  const navigate = useNavigate();
+
+  const openRandomProduct = () => {
+    const randomId = Product[Math.floor(Math.random() * Product.length)].id;
+    navigate(`/product/${randomId}`);
+  };
+  function handleOpenProduct(id: number) {
+    throw new Error('Function not implemented.');
+  }
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '20px 20px 5rem 20px', gap: 2 }}>
@@ -126,7 +136,10 @@ export default function MyCard() {
         {Product.map((product) => (
           <Grid item xs={6} sm={4} md={3} lg={2} key={product.id}>
             <Card sx={{ maxWidth: '88%', fontSize: '12px', position: 'relative', borderRadius: '10px',p:2 }}>
-              <CardMedia component="img" height="88" image={product.image} alt={product.name} />
+              <CardMedia component="img" height="88" 
+              image={product.image} alt={product.name}
+              onClick={openRandomProduct}
+              />
               <IconButton
           // onClick={handleFavoriteClick}
           sx={{

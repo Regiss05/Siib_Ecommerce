@@ -60,6 +60,13 @@ body {
   border: none;
 }
 
+
+.wallet{
+
+  padding: '20px';
+  color: #FF9A00;
+  
+}
 @keyframes wave-animation {
   0% {
     transform: rotate(0.0deg)
