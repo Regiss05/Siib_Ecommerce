@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction, Paper } from "@mui/material";
+import { BottomNavigation, BottomNavigationAction, Paper, Badge,IconButton, } from "@mui/material";
+
 import HomeIcon from "@mui/icons-material/Home";
 // import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import CartPage from "../components/Cart";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ChatIcon from "@mui/icons-material/Chat";
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
-
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 export default function Footer() {
   const [value, setValue] = useState(0);
   const navigate = useNavigate(); // Hook to navigate between pages
+//badge quantity
+const handleQuantityChange = (id, change) => {
+  setCartItems((prevItems) =>
+    prevItems.map((item) =>
+      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
+    )
+  );
+};
+
+const handleRemoveItem = (id) => {
+  setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+};
+
+
 
   const handleChange = (_: any, newValue: number) => {
     setValue(newValue);
@@ -64,10 +80,14 @@ export default function Footer() {
         />
         <BottomNavigationAction
           label="Cart"
+       
           icon={<ShoppingCartCheckoutIcon />}
+          
           sx={{ "&.Mui-selected": { color: "#362fff" } }}
         />
+         
         <BottomNavigationAction
+      
           label="Chat"
           icon={<ChatIcon />}
           sx={{ "&.Mui-selected": { color: "#362fff" } }}
@@ -76,3 +96,7 @@ export default function Footer() {
     </Paper>
   );
 }
+function setCartItems(arg0: (prevItems: any) => any) {
+  throw new Error("Function not implemented.");
+}
+

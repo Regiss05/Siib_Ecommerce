@@ -1,0 +1,12 @@
+[
+    {
+      "id": 1,
+      "address": "Burundi, Bujumbura, Ntahagwa",
+      "default": true
+    },
+    {
+      "id": 2,
+      "address": "Another Address, City, Country",
+      "default": false
+    }
+  ]

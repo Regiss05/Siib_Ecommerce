@@ -1,116 +1,123 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
   Container,
-  Paper,
+  Typography,
   TextField,
   Button,
   Avatar,
   Box,
   Rating,
-  Divider,
+  IconButton,
 } from '@mui/material';
-import { ArrowBack, Edit as EditIcon, PhotoCamera as PhotoCameraIcon } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
 
-const ProfilePage = () => {
-  const [profilePicture, setProfilePicture] = useState(
-    'https://via.placeholder.com/150' // Placeholder image
-  );
-  const [username, setUsername] = useState('@Siib2023');
-  const [location, setLocation] = useState('BURUNDI, Bujumbura, Mutimbuzi');
-  const [ownerName, setOwnerName] = useState('Luhama Muhdini');
-  const [description, setDescription] = useState('');
-  const [rating, setRating] = useState(4.9);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const ShopProfile = () => {
+  const [profileData, setProfileData] = useState({
+    shopName: "SIIB Burundi Shop",
+    username: "@Siib2023",
+    location: "BURUNDI, Bujumbura, Mutimbuzi",
+    ownerName: "Luhama Muhdini",
+    description: "",
+    rating: 4.9,
+    profileImage: "/path/to/profile-image.png", // Replace with actual path
+  });
 
-  const handleProfilePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target && typeof e.target.result === 'string') {
-          setProfilePicture(e.target.result);
-        }
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
+  const handleChange = (e) => {
+    setProfileData({ ...profileData, [e.target.name]: e.target.value });
   };
 
-  const handleUploadButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+  const handleUpdateProfile = () => {
+    // Simulate database update
+    console.log("Updating profile:", profileData);
+    // In a real app, send profileData to your backend API
   };
 
   return (
-    <Container maxWidth="sm">
-      <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="back">
-            <ArrowBack />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Profile
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <Paper elevation={3} sx={{ padding: 3, marginTop: 2 }}>
-        <Box display="flex" flexDirection="column" alignItems="center" marginBottom={3}>
-          <Box position="relative">
-            <Avatar src={profilePicture} sx={{ width: 100, height: 100 }} />
-            <IconButton
-              component="span"
-              sx={{ position: 'absolute', bottom: 0, right: 0, backgroundColor: 'primary.main', color: 'white' }}
-              onClick={handleUploadButtonClick}
-            >
-              <EditIcon />
-            </IconButton>
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleProfilePictureChange}
-              ref={fileInputRef}
-            />
-          </Box>
-        </Box>
-
-        <TextField label="Name Shop" variant="outlined" fullWidth margin="normal" defaultValue="SIIB Burundi Shop" disabled />
-        <Box display="flex" alignItems="center" justifyContent="space-between" marginY={2}>
-          <TextField label="Username" variant="outlined" defaultValue={username} onChange={(e) => setUsername(e.target.value)} />
-          <Button variant="text">Change</Button>
-        </Box>
-        <TextField label="Location" variant="outlined" fullWidth margin="normal" defaultValue={location} onChange={(e) => setLocation(e.target.value)} />
-        <TextField label="Name owner" variant="outlined" fullWidth margin="normal" defaultValue={ownerName} onChange={(e) => setOwnerName(e.target.value)} />
-        <TextField label="Name owner" variant="outlined" fullWidth margin="normal" defaultValue={ownerName} onChange={(e) => setOwnerName(e.target.value)} />
-        <TextField
-          label="Description"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          multiline
-          rows={4}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+        <Avatar
+          src={profileData.profileImage}
+          sx={{ width: 80, height: 80 }}
         />
+        <IconButton sx={{ position: 'relative', left: -20, bottom: -25 }}>
+          <EditIcon />
+        </IconButton>
+      </Box>
 
-        <Box display="flex" alignItems="center" justifyContent="space-between" marginTop={2}>
-          <Typography variant="subtitle1">Rate</Typography>
-          <Rating name="read-only" value={rating} precision={0.1} readOnly />
-          <Typography variant="body2">{rating}</Typography>
-        </Box>
+      <TextField
+        label="Name Shop"
+        name="shopName"
+        value={profileData.shopName}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
 
-        <Divider sx={{ marginY: 3 }} />
+      <TextField
+        label="Username"
+        name="username"
+        value={profileData.username}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        InputProps={{
+          endAdornment: (
+            <Button size="small" color="primary">
+              Change
+            </Button>
+          ),
+        }}
+      />
 
-        <Button variant="contained" fullWidth>
-          Update Profile
-        </Button>
-      </Paper>
+      <TextField
+        label="Location"
+        name="location"
+        value={profileData.location}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+
+      <TextField
+        label="Name owner"
+        name="ownerName"
+        value={profileData.ownerName}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+      />
+
+      <TextField
+        label="Description"
+        name="description"
+        value={profileData.description}
+        onChange={handleChange}
+        fullWidth
+        margin="normal"
+        multiline
+        rows={4}
+      />
+
+      <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+        <Typography variant="subtitle1" sx={{ mr: 1 }}>
+          Rate
+        </Typography>
+        <Rating value={profileData.rating} precision={0.1} readOnly />
+        <Typography variant="body2" sx={{ ml: 1 }}>
+          {profileData.rating}
+        </Typography>
+      </Box>
+
+      <Button
+        variant="contained"
+        fullWidth
+        sx={{ mt: 3 }}
+        onClick={handleUpdateProfile}
+      >
+        Update Profile
+      </Button>
     </Container>
   );
 };
 
-export default ProfilePage;
+export default ShopProfile;

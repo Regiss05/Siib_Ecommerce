@@ -28,7 +28,7 @@ import {
   Send as SendIcon,
   SupportAgent as SupportIcon,
 } from '@mui/icons-material';
-
+import SupervisedUserCircleOutlinedIcon from '@mui/icons-material/SupervisedUserCircleOutlined';
 interface Message {
   text: string;
   sender: 'user' | 'support';
@@ -37,7 +37,11 @@ interface Message {
 
 const ChatScreen = () => {
   const [value, setValue] = useState('chat');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+
+
+    
+  ]);
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +64,7 @@ const ChatScreen = () => {
         const supportResponse: Message = {
           text: `Support: Thank you for your message! We'll get back to you shortly.`,
           sender: 'support',
-          timestamp: new Date().toLocaleTimeString(),
+          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         };
         setMessages((prevMessages) => [...prevMessages, supportResponse]);
       }, 1000); // Simulate 1-second delay
@@ -76,13 +80,18 @@ const ChatScreen = () => {
   }, [messages]);
 
   return (
-    <Container maxWidth="sm" style={{ padding: 0 }}>
+    
+    <Container maxWidth="md" style={{ padding: 0,
+      
+
+
+     }}>
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar sx={{backgroundColor:'white',width:'100%',height:'55%'}}>
           <IconButton edge="start" color="inherit" aria-label="back">
             <ArrowBack />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ textAlign:'center'}}>
+          <Typography variant="h6" component="div" sx={{ textAlign:'center',color:'black'}}>
             Support Chat
           </Typography>
         </Toolbar>
@@ -93,38 +102,43 @@ const ChatScreen = () => {
          backgroundColor: '#f0f0f0', position: 'relative',
           overflowY: 'auto',
           backgroundImage:'url(https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg?w=740)',
-         backgroundPosition: 'center',
-      
-           backgroundSize: 'cover',
-    
+           backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundAttachment: 'fixed', 
+            minHeight: '100vh', // Ensure the box takes up full viewport height
+            
+        
       '&::before': {
         content: '""',
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
+        minHeight: '100vh',
+
         backgroundColor: 'rgba(255, 255, 255, 0.90)', // Semi-transparent overlay
 
       },
           }}>
-        <Box sx={{
-          textAlign: 'center',
-          color: '#ccc',
-          padding: 2,
-        }}>
-        
-        </Box>
+     
 
         <List>
           {messages.map((message, index) => (
-            <ListItem key={index} style={{ justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start' }}>
-              <Paper elevation={1} style={{ padding: '8px 12px', borderRadius: '20px', backgroundColor: message.sender === 'user' ? '#DCF8C6' : '#fff' }}>
-                <ListItemText primary={message.text} secondary={message.timestamp} style={{ textAlign: message.sender === 'user' ? 'right' : 'left' }} />
+            <ListItem key={index} style={{ justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start',display: "flex", flexDirection: "column", }}>
+              <Paper elevation={3} sx={{ padding: '4px 9px', display: "flex",flexDirection: "column",   overflow: "hidden", borderRadius: '8px', backgroundColor: message.sender === 'user' ? '#DCF8C6' : '#fff', boxShadow: "0 2px 4px rgba(0,0,0,0.1)", maxWidth: "70%", width: "fit-content",  }}>
+                <ListItemText primary={message.text} secondary={message.timestamp} sx={{ textAlign: message.sender === 'user' ? 'right' : 'left',marginRight:'58px' }} />
               </Paper>
               {message.sender === 'support' && (
-                <Avatar sx={{ marginLeft: 1 }}>
+                <Avatar sx={{ marginLeft: 9,color:'blue' }}>
                   <SupportIcon />
+                </Avatar>
+              )}
+
+
+{message.sender === 'user' && (
+                <Avatar sx={{ marginLeft: 49,color:'blue',position:"absolute",bottom:'59px' }}>
+                  <SupervisedUserCircleOutlinedIcon  />
                 </Avatar>
               )}
             </ListItem>
@@ -133,11 +147,12 @@ const ChatScreen = () => {
         </List>
       </Box>
 
-      <Box sx={{paddingBottom:'40px',width:'100%',textAlign:'center',borderRadius:'10px',borderBottomRightRadius:'7px',backgroundColor:'rgba(255, 255, 255, 0.94)'}}>
+      <Box sx={{marginLeft:'23px',padding: "20px", borderTop: "1px solid #e0e0e0",gap: 1,}}>
         <TextField
-         
-        
+           fullWidth
+           variant="outlined"
           placeholder="Type your message"
+          size='small'
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={(e) => {
@@ -146,16 +161,18 @@ const ChatScreen = () => {
             }
           }}
           InputProps={{
+         
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={handleSendMessage}>
                   <SendIcon />
                 </IconButton>
-                <IconButton>
+                {/* <IconButton>
                   <ImageIcon />
-                </IconButton>
+                </IconButton> */}
               </InputAdornment>
             ),
+            style: { borderRadius: '10px', backgroundColor: '#f5f5f5'}
           }}
         />
       </Box>

@@ -25,7 +25,7 @@ import {
   KeyboardArrowRight,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
-
+import Cart from '../components/Cart'
 const ProductDetails = () => {
   const theme = useTheme();
 
@@ -159,9 +159,9 @@ const ProductDetails = () => {
             {product.rating} ({product.reviews} reviews)
           </Typography>
           {product.available && (
-            <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 23,marginBottom:5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 12,marginBottom:5 }}>
               <CheckCircle color="success" sx={{ fontSize: '1rem', marginRight: 0.3 }} />
-              <Typography variant="body2" sx={{ fontSize: '1rem', marginRight: 0 }}>Available</Typography>
+              <Typography variant="body2" sx={{ fontSize: '1rem', marginRight: 5 }}>Available</Typography>
             </Box>
           )}
         </Box>

@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "name": "L9 MAX i9 Pro",
+      "price": 0.5,
+      "image": "/images/l9_max_i9_pro.jpg",
+      "shop": "SBB Tanzania Shop",
+      "rating": 4.5
+    },
+    {
+      "id": 2,
+      "name": "Hp Laptop",
+      "price": 0.000205,
+      "image": "/images/hp_laptop.jpg",
+      "shop": "SIIB Burundi Shop",
+      "rating": 4.7
+    }
+  ]
