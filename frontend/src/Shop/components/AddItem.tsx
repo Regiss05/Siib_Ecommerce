@@ -16,7 +16,40 @@ const AddItem = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!imageFile) return alert("Please select an image.");
+  
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("price", price);
+    formData.append("availableStock", availableStock);
+    formData.append("image", imageFile);
+  
+    try {
+      const response = await fetch("http://localhost:8000/products/add", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        alert("Product added successfully!");
+        setName("");
+        setDescription("");
+        setCategory("");
+        setPrice("");
+        setAvailableStock("");
+        setImageFile(null);
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+      alert("Failed to add product.");
+    }
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>

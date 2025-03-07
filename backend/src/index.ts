@@ -10,6 +10,8 @@ import { MongoClient } from 'mongodb';
 import env from './environments';
 import mountPaymentsEndpoints from './handlers/payments';
 import mountUserEndpoints from './handlers/users';
+import mountProductEndpoints from './handlers/products';
+
 // import productRoutes from '../routes/products';
 
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
@@ -87,20 +89,24 @@ app.get('/', async (_, res) => {
 
 // app.use('/api/products', productRoutes);
 
+const productRouter = express.Router();
+mountProductEndpoints(productRouter);
+app.use('/products', productRouter);
+
 
 // III. Boot up the app:
 
 app.listen(8000, async () => {
   try {
-    const client = await MongoClient.connect(mongoUri, mongoClientOptions)
+    const client = await MongoClient.connect(mongoUri, mongoClientOptions);
     const db = client.db(dbName);
-    app.locals.orderCollection = db.collection('orders');
-    app.locals.userCollection = db.collection('users');
-    console.log('✅ Connected to MongoDB on: ', mongoUri)
+    app.locals.orderCollection = db.collection("orders");
+    app.locals.userCollection = db.collection("users");
+    app.locals.productCollection = db.collection("products"); // Add this line
+    console.log("✅ Connected to MongoDB on: ", mongoUri);
   } catch (err) {
-    console.error('❌ Connection to MongoDB failed: ', err)
+    console.error("❌ Connection to MongoDB failed: ", err);
   }
 
-  console.log('✅ App platform demo app - Backend listening on port 8000!');
-  console.log(`✅ CORS config: configured to respond to a frontend hosted on ${env.frontend_url}`);
+  console.log("✅ Backend listening on port 8000!");
 });
