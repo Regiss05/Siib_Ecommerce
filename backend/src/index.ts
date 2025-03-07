@@ -96,11 +96,11 @@ app.listen(8000, async () => {
     const db = client.db(dbName);
     app.locals.orderCollection = db.collection('orders');
     app.locals.userCollection = db.collection('users');
-    console.log('Connected to MongoDB on: ', mongoUri)
+    console.log('✅ Connected to MongoDB on: ', mongoUri)
   } catch (err) {
-    console.error('Connection to MongoDB failed: ', err)
+    console.error('❌ Connection to MongoDB failed: ', err)
   }
 
-  console.log('App platform demo app - Backend listening on port 8000!');
-  console.log(`CORS config: configured to respond to a frontend hosted on ${env.frontend_url}`);
+  console.log('✅ App platform demo app - Backend listening on port 8000!');
+  console.log(`✅ CORS config: configured to respond to a frontend hosted on ${env.frontend_url}`);
 });
