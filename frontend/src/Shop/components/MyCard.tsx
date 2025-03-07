@@ -8,7 +8,7 @@ import car2 from '../../imges/statics/car2.jpg';
 import car3 from '../../imges/statics/car3.jpg';
 import car4 from '../../imges/statics/car4.jpg';
 import car5 from '../../imges/statics/car5.jpg';
-import car6 from '../../imges/statics/car6.jpg';
+import car6 from '../../imges/statics/car6.png';
 import car7 from '../../imges/statics/car7.jpg';
 import car8 from '../../imges/statics/car8.jpg';
 import car9 from '../../imges/statics/car9.jpg';
@@ -62,12 +62,12 @@ interface Product {
 }
 // Sample Product Data
 const Product = [
-  { id: 1, name: "car1", price: "0.10", image: car1, shopName: "SIIB IVORY COST"},
-  { id: 2, name: "car2", price: "0.9", image: car2, shopName: "SIIB RWANDA" },
-  { id: 3, name: "car3", price: "0.03", image: car3, shopName: "SIIB BURUNDI" },
-  { id: 4, name: "Smartwatch", price: "0.06", image:car4, shopName: "SIIB BURUNDI"},
-  { id: 5, name: "Camera", price: "0.003", image: car5, shopName: "SIIB BURUNDI" },
-  { id: 6, name: "Monitor", price: "0.001", image: car6, shopName: "SIIB BURUNDI"},
+  { id: 1, name: "Lexus Gx460", price: "0.10", image: car1, shopName: "SIIB IVORY COST"},
+  { id: 2, name: "Toyota RAV4 Hybrid SE ", price: "0.9", image: car2, shopName: "SIIB RWANDA" },
+  { id: 3, name: "Nissan Magnite", price: "0.03", image: car3, shopName: "SIIB BURUNDI" },
+  { id: 4, name: "Nissan Caravan Van ", price: "0.06", image:car4, shopName: "SIIB BURUNDI"},
+  { id: 5, name: "BYD YangWang U8", price: "0.003", image: car5, shopName: "SIIB BURUNDI" },
+  { id: 6, name: "BMW 2-Series", price: "0.001", image: car6, shopName: "SIIB BURUNDI"},
   { id: 8, name: "Emerald Paradise", price: "0.002", image:house6, shopName: "SIIB RWANDA"},
   { id: 9, name: "Lotus Feet Cottage", price: "0.005", image:house2, shopName: "Tech Hub"},
   { id: 10, name: "Divine Heritage", price: "0.0021", image:house3, shopName: "SIIB TANZANIA"},
