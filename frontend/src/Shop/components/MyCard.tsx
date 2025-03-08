@@ -13,6 +13,7 @@ interface Product {
   price: number;
   availableStock: number;
   imageUrl: string;
+  likes?: number; // Add this line
 }
 
 const ProductsPage: React.FC = () => {
@@ -29,6 +30,20 @@ const ProductsPage: React.FC = () => {
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
+  const handleLike = async (id: string, currentLikes: number | undefined) => {
+    try {
+      const res = await fetch(`http://localhost:8000/products/${id}/like`, { method: "POST" });
+      const data = await res.json();
+  
+      setProducts(products.map((p) =>
+        p._id === id ? { ...p, likes: data.likes } : p
+      ));
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
+  };
+  
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '20px 20px 5rem 20px', gap: 2 }}>
       <Grid container spacing={3}>
@@ -43,19 +58,12 @@ const ProductsPage: React.FC = () => {
               />
               <CardContent sx={{ margin: 0, padding: '0px 5px' }}>
                 <IconButton
-                  // onClick={handleFavoriteClick}
-                  sx={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    color: isFavorite ? 'error.main' : 'white', // Red if clicked, white if not
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: background for contrast
-                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' } // Darken on hover
-                  }}
-                  aria-label="add to favorites"
+                  sx={{ backgroundColor: 'white', position: "absolute", top: 10, right: 10, color: (product.likes || 0) > 0 ? "red" : "gray" }}
+                  onClick={() => handleLike(product._id, product.likes)}
                 >
                   <FavoriteIcon />
                 </IconButton>
+
                 <Box sx={{
                   position: 'absolute',
                   top: 8,

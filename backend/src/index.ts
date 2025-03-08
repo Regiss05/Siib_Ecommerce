@@ -13,8 +13,6 @@ import mountUserEndpoints from './handlers/users';
 import mountProductEndpoints from './handlers/products';
 import categoryRoutes from "./handlers/category";
 
-// import productRoutes from '../routes/products';
-
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
 // have no problem here)
 // https://stackoverflow.com/questions/65108033/property-user-does-not-exist-on-type-session-partialsessiondata#comment125163548_65381085
@@ -87,8 +85,6 @@ app.use('/user', userRouter);
 app.get('/', async (_, res) => {
   res.status(200).send({ message: "Hello, World!" });
 });
-
-// app.use('/api/products', productRoutes);
 
 const productRouter = express.Router();
 mountProductEndpoints(productRouter);
