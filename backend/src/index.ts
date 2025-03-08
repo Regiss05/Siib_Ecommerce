@@ -11,6 +11,7 @@ import env from './environments';
 import mountPaymentsEndpoints from './handlers/payments';
 import mountUserEndpoints from './handlers/users';
 import mountProductEndpoints from './handlers/products';
+import categoryRoutes from "./handlers/category";
 
 // import productRoutes from '../routes/products';
 
@@ -91,7 +92,10 @@ app.get('/', async (_, res) => {
 
 const productRouter = express.Router();
 mountProductEndpoints(productRouter);
+app.use('/uploads', express.static('uploads'));
 app.use('/products', productRouter);
+
+app.use("/categories", categoryRoutes);
 
 
 // III. Boot up the app:
