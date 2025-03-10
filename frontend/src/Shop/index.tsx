@@ -9,7 +9,9 @@ import Footer from "./components/Footer";
 import ProductDetails from "./components/ProductDetails";
 import Checkout from "./components/Checkout";
 import Profile from "./components/Profile";
+import AllProducts from "./components/AllProducts";
 import Dashbard from "./components/admin/Dashboard";
+import CreateShop from "./components/CreateShop";
 // import { useTranslation } from "react-i18next";
 
 export default function App() {
@@ -26,6 +28,8 @@ export default function App() {
         <Route path="/ProductDetails" element={<ProductDetails />} />
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/CreateShop" element={<CreateShop/>}/>
+        <Route path="/AllProducts" element={<AllProducts />} />
         <Route path="/Dashboard" element={<Dashbard />} />
         <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
