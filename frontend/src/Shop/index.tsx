@@ -6,9 +6,8 @@ import Cart from "./components/Cart";
 import Chat from "./components/Chat";
 import AddItem from "./components/AddItem";
 import Footer from "./components/Footer";
-import ProductDetails from "./components/ProductDetails";
 import Checkout from "./components/Checkout";
-// import { useTranslation } from "react-i18next";
+import ProductDetail from "./components/ProductDetail";
 
 export default function App() {
   // useTranslation(); // Ensure the useTranslation hook is called
@@ -20,10 +19,9 @@ export default function App() {
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/add" element={<AddItem />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/ProductDetails" element={<ProductDetails />} />
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/chat" element={<Chat />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetail />} /> {/* Add product details route */}
       </Routes>
       <Footer />
     </>
