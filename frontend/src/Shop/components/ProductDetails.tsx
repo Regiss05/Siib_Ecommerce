@@ -69,7 +69,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="back">
