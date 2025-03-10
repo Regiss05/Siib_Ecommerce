@@ -7,7 +7,7 @@ import Cathegories from "./Cathegories";
 import Products from "./Products";
 import ImageSlider from "./ImageSlider";
 // import ProductCard from './ProductCard';
-import MyCard from './MyCard';
+import MyCard from './ProductsPage';
 
 // type MyPaymentMetadata = {};
 
