@@ -99,7 +99,7 @@ const CreateShop = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', p: 2 }}>
+    <Box sx={{ maxWidth: 400, mx: 'auto', p: 2 ,marginBottom:'69px'}}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <IconButton edge="start" color="inherit" aria-label="back">
           <ArrowBack />
@@ -241,8 +241,8 @@ const CreateShop = () => {
         ))}
       </Box>
 
-      <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth>
-        Add product
+      <Button  variant="contained" color="primary" onClick={handleSubmit} fullWidth >
+       Crate shop
       </Button>
     </Box>
   );
