@@ -67,6 +67,11 @@ body {
   color: #FF9A00;
   
 }
+
+.product-detail {
+  --Paper-shadow: none !important;
+}
+
 @keyframes wave-animation {
   0% {
     transform: rotate(0.0deg)

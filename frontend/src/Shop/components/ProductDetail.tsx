@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Box, Typography, Card, CardMedia, CardContent, IconButton } from "@mui/material";
+import { Box, Typography, Card, CardMedia, CardContent, IconButton, Button } from "@mui/material";
 import Car from "../../imges/statics/Car.svg";
 import check from "../../imges/statics/check.svg";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import cart from "../../imges/statics/cart.svg";
 
 interface Product {
   _id: string;
@@ -67,14 +68,14 @@ const ProductDetail: React.FC = () => {
 
   return (
     <Box>
-      <Card sx={{ maxWidth: "600px", margin: 0, padding: 0 }}>
+      <Card sx={{ maxWidth: "600px", margin: 0, padding: 0, boxShadow: "none" }}>
         <CardMedia
           component="img"
           height="280"
           image={`http://localhost:8000${product.imageUrl}`}
           alt={product.name}
         />
-        <CardContent>
+        <CardContent className="product-detail" >
           <IconButton
             sx={{
               backgroundColor: "white",
@@ -106,9 +107,12 @@ const ProductDetail: React.FC = () => {
           </IconButton>
 
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "15px" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: "5px", backgroundColor: "rgba(54, 47, 255, 0.2)", padding: "5px 10px", width: "fit-content", borderRadius: "15px", margin: "10px 0" }}>
-              <img src={Car} alt="car" style={{ width: "21px" }} />
-              <Typography sx={{ color: "#362FFF" }}>{product.category}</Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "center" }}>
+              <Typography sx={{ color: "#362FFF", backgroundColor: "rgba(54, 47, 255, 0.2)", padding: "5px 10px", borderRadius: "15px" }}>Burundi</Typography>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "5px", backgroundColor: "rgba(54, 47, 255, 0.2)", padding: "5px 10px", width: "fit-content", borderRadius: "15px", margin: "10px 0" }}>
+                <img src={Car} alt="car" style={{ width: "21px" }} />
+                <Typography sx={{ color: "#362FFF" }}>{product.category}</Typography>
+              </Box>
             </Box>
             {/* Stock Availability with Animation */}
             <motion.div
@@ -133,9 +137,27 @@ const ProductDetail: React.FC = () => {
               <Typography variant="body2">{stockDisplay}</Typography>
             </motion.div>
           </Box>
-          <Typography variant="h6">{product.name}</Typography>
-          <Typography variant="body1" sx={{ color: "#9d9d9d" }}>{product.description}</Typography>
-          <Typography variant="h6" sx={{ color: "#6030ff" }}>Price: {product.price} Pi</Typography>
+          <Typography variant="h6" sx={{ fontWeight: "bold", borderBottom: "1px solid #9d9d9d", paddingBottom: "10px" }}>{product.name}</Typography>
+          <Typography variant="body1" sx={{ color: "#9d9d9d", marginTop: "10px" }}>{product.description}</Typography>
+          <Box sx={{
+            position: "absolute",
+            paddingTop: "1rem",
+            bottom: "5rem",
+            left: 0,
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+            boxShadow: "0px -4px 10px rgba(0, 0, 0, 0.1)" // Adds a shadow on top
+          }}>
+            <Box sx={{marginLeft: "1rem"}}>
+              Price:
+              <Typography sx={{ color: "#0b21f5", fontWeight: "bold", fontSize: "20px" }}>{product.price} Pi</Typography>
+            </Box>
+            <Button sx={{ marginRight: "1rem" ,backgroundColor: "#0b21f5", color: "white", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", width: "11rem", borderRadius: "10px" }}>
+              <img src={cart} alt="cart" style={{ width: "15px", marginRight: "5px" }} />
+              Add cart
+            </Button>
+          </Box>
         </CardContent>
       </Card>
     </Box>
