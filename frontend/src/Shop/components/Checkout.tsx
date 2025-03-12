@@ -59,7 +59,7 @@ const OrderSummary = () => {
   const total = totalAmount + shippingFees + tax;
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" >
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="back">
@@ -71,7 +71,7 @@ const OrderSummary = () => {
         </Toolbar>
       </AppBar>
 
-      <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
+      <Paper elevation={3} sx={{ padding: 2, marginTop: 12 }}>
         <List>
           {orderItems.map((item) => (
             <ListItem key={item.id} alignItems="flex-start" sx={{ border: '1px solid #e0e0e0', borderRadius: '4px', marginBottom: '8px' }}>
