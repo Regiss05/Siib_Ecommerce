@@ -1,48 +1,48 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { User } from "./Home";
-import { styled } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { styled } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { Button } from "@mui/material";
-import languageIcon from '../../imges/statics/language.svg';
-import shopsloc from '../../imges/statics/shopsloc.svg';
-import hand from '../../imges/statics/hand.svg';
-import Box from '@mui/material/Box';
-import locationshop from '../../imges/statics/locationshop.svg';
+import languageIcon from "../../imges/statics/language.svg";
+import shopsloc from "../../imges/statics/shopsloc.svg";
+import hand from "../../imges/statics/hand.svg";
+import Box from "@mui/material/Box";
+import locationshop from "../../imges/statics/locationshop.svg";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 
-const Search = styled('div')(() => ({
-  position: 'relative',
-  borderRadius: '10px',
-  backgroundColor: 'white',
-  width: '80%',
+const Search = styled("div")(() => ({
+  position: "relative",
+  borderRadius: "10px",
+  backgroundColor: "white",
+  width: "80%",
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: 'black',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "black",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'gray',
-  width: '100%',
-  '& .MuiInputBase-input': {
+  color: "gray",
+  width: "100%",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    '&::placeholder': {
-      color: 'black',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    "&::placeholder": {
+      color: "black",
     },
   },
 }));
@@ -56,16 +56,38 @@ interface Props {
 const headerStyle: CSSProperties = {
   color: "white",
   padding: "20px",
-  // height: '18rem',
-  borderBottomRightRadius: '30px',
-  borderBottomLeftRadius: '30px',
+  borderBottomRightRadius: "30px",
+  borderBottomLeftRadius: "30px",
 };
 
 export default function Header(props: Props) {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [user, setUser] = useState<User | null>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate(); // Initialize navigate
+
+  // Load user from localStorage when the component mounts
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleSignIn = () => {
+    props.onSignIn();
+    if (props.user) {
+      localStorage.setItem("user", JSON.stringify(props.user)); // Save to localStorage
+      setUser(props.user);
+    }
+  };
+
+  const handleSignOut = () => {
+    props.onSignOut();
+    localStorage.removeItem("user"); // Remove from localStorage
+    setUser(null);
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -78,54 +100,55 @@ export default function Header(props: Props) {
 
   return (
     <header style={headerStyle} className="header">
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "5px" }}>
         <div>
-          {props.user === null ? (
-            <button className="signin" onClick={props.onSignIn}>{t("signIn")}</button>
+          {user === null ? (
+            <button className="signin" onClick={handleSignIn}>
+              {t("signIn")}
+            </button>
           ) : (
-            <button className="signout" onClick={props.onSignOut}>{t("signOut")}</button>
+            <button className="signout" onClick={handleSignOut}>
+              {t("signOut")}
+            </button>
           )}
         </div>
         <img className="icohome" src={languageIcon} alt={t("language")} />
       </Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Box sx={{ fontSize: '18px', color: '#eeecfe' }}>
-          {t("hello")}, <img className='handico waving-hand' src={hand} alt="hand" />
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Box sx={{ fontSize: "18px", color: "#eeecfe" }}>
+          {t("hello")}, <img className="handico waving-hand" src={hand} alt="hand" />
           <div>
-            {props.user === null ? (
+            {user === null ? (
               <div>{t("dear")}</div>
             ) : (
-              <div className="userlogin">@{props.user.username}</div>
+              <div className="userlogin">@{user.username}</div>
             )}
           </div>
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
           <IconButton onClick={() => navigate("/favorite")} sx={{ padding: 0 }}>
             <img className="icohome" src={shopsloc} alt="shopsloc" />
           </IconButton>
           <img className="icohome" src={locationshop} alt="sort" />
         </Box>
       </Box>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "15px" }}>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase
-            placeholder={t("search")}
-            inputProps={{ 'aria-label': 'search' }}
-          />
+          <StyledInputBase placeholder={t("search")} inputProps={{ "aria-label": "search" }} />
         </Search>
         <div>
           <Button
-            sx={{ backgroundColor: '#eeecfe', color: 'black', borderRadius: '10px', width: '30px' }}
+            sx={{ backgroundColor: "#eeecfe", color: "black", borderRadius: "10px", width: "30px" }}
             onClick={handleClick}
           >
             {i18n.language.toUpperCase()}
           </Button>
           <Menu anchorEl={anchorEl} open={open} onClose={() => handleClose()}>
-            <MenuItem onClick={() => handleClose('en')}>{t("english")}</MenuItem>
-            <MenuItem onClick={() => handleClose('fr')}>{t("french")}</MenuItem>
+            <MenuItem onClick={() => handleClose("en")}>{t("english")}</MenuItem>
+            <MenuItem onClick={() => handleClose("fr")}>{t("french")}</MenuItem>
           </Menu>
         </div>
       </div>

@@ -12,6 +12,7 @@ import mountPaymentsEndpoints from './handlers/payments';
 import mountUserEndpoints from './handlers/users';
 import mountProductEndpoints from './handlers/products';
 import categoryRoutes from "./handlers/category";
+import mountCartEndpoints from "./handlers/cart";
 
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
 // have no problem here)
@@ -93,6 +94,14 @@ app.use('/products', productRouter);
 
 app.use("/categories", categoryRoutes);
 
+const cartRouter = express.Router();
+mountCartEndpoints(cartRouter);
+app.use("/cart", cartRouter);
+
+app.get("/api/cart/:userId", async (req, res) => {
+  // Fetch cart data for a user
+});
+
 
 // III. Boot up the app:
 
@@ -103,6 +112,7 @@ app.listen(8000, async () => {
     app.locals.orderCollection = db.collection("orders");
     app.locals.userCollection = db.collection("users");
     app.locals.productCollection = db.collection("products"); // Add this line
+    app.locals.cartCollection = db.collection("cart"); // ✅ Add cart collection
     console.log("✅ Connected to MongoDB on: ", mongoUri);
   } catch (err) {
     console.error("❌ Connection to MongoDB failed: ", err);

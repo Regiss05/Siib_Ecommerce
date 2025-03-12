@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Favorite from "./components/Favorite";
-import Cart from "./components/Cart";
+import CartPage from "./components/CartPage";
 import Chat from "./components/Chat";
 import AddItem from "./components/AddItem";
 import CreateShop from "./components/CreateShop";
@@ -20,10 +20,10 @@ export default function App() {
         <Route path="/favorite" element={<Favorite />} />
         <Route path="/add" element={<AddItem />} />
         <Route path="/CreateShop" element={<CreateShop />} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/product/:id" element={<ProductDetail />} /> {/* Add product details route */}
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
       <Footer />
     </>

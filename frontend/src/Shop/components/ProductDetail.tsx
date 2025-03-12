@@ -7,6 +7,8 @@ import Car from "../../imges/statics/Car.svg";
 import check from "../../imges/statics/check.svg";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import cart from "../../imges/statics/cart.svg";
+// import usenavigate from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   _id: string;
@@ -25,6 +27,7 @@ const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [stockDisplay, setStockDisplay] = useState<string>("");
   const [showStockCount, setShowStockCount] = useState<boolean>(false);
+  const navigate = useNavigate(); // Initialize navigation
 
   const handleLike = async (id: string) => {
     try {
@@ -64,6 +67,80 @@ const ProductDetail: React.FC = () => {
     }
   }, [product]);
 
+  const getUserFromLocalStorage = () => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        console.log("Retrieved user from localStorage:", user);
+        return { 
+          userId: user.uid, // Extract `uid` and use it as `userId`
+          username: user.username
+        };
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        return null;
+      }
+    }
+    return null;
+  };  
+  
+  // Example of using it in your React component:
+  useEffect(() => {
+    const user = getUserFromLocalStorage();
+    if (user) {
+      console.log("User details:", user);
+    }
+  }, []);  
+
+  const addToCart = async () => {
+    if (!product) return;
+  
+    const user = getUserFromLocalStorage();
+    if (!user || !user.userId) {
+      console.log("User ID not found.", user);
+      alert("Please sign in to add items to your cart.");
+      return;
+    }
+  
+    console.log("Product added to cart:", {
+      userId: user.userId, // Now correctly using `uid`
+      username: user.username,
+      productId: product._id,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      availableStock: product.availableStock,
+      imageUrl: product.imageUrl,
+      likes: product.likes,
+    });
+  
+    try {
+      const response = await fetch("http://localhost:8000/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.userId, // Fixed: now using `uid` as `userId`
+          productId: product._id,
+          quantity: 1,
+        }),
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        alert("Item added to cart!");
+      } else {
+        alert(data.message || "Failed to add to cart.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Error adding to cart.");
+    }
+  };
+  
   if (!product) return <Typography>Loading...</Typography>;
 
   return (
@@ -149,13 +226,26 @@ const ProductDetail: React.FC = () => {
             width: "100%",
             boxShadow: "0px -4px 10px rgba(0, 0, 0, 0.1)" // Adds a shadow on top
           }}>
-            <Box sx={{marginLeft: "1rem"}}>
+            <Box sx={{ marginLeft: "1rem" }}>
               Price:
               <Typography sx={{ color: "#0b21f5", fontWeight: "bold", fontSize: "20px" }}>{product.price} Pi</Typography>
             </Box>
-            <Button sx={{ marginRight: "1rem" ,backgroundColor: "#0b21f5", color: "white", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", width: "11rem", borderRadius: "10px" }}>
+            <Button
+              onClick={addToCart}
+              sx={{
+                marginRight: "1rem",
+                backgroundColor: "#0b21f5",
+                color: "white",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "5px",
+                width: "11rem",
+                borderRadius: "10px",
+              }}
+            >
               <img src={cart} alt="cart" style={{ width: "15px", marginRight: "5px" }} />
-              Add cart
+              Add to Cart
             </Button>
           </Box>
         </CardContent>
