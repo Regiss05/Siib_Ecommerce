@@ -15,6 +15,13 @@ import locationshop from "../../imges/statics/locationshop.svg";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 
+interface HeaderProps {
+  user: User | null;
+  onSignIn: () => void;
+  onSignOut: () => void;
+  setSearchQuery: (query: string) => void;
+}
+
 const Search = styled("div")(() => ({
   position: "relative",
   borderRadius: "10px",
@@ -47,12 +54,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-interface Props {
-  onSignIn: () => void;
-  onSignOut: () => void;
-  user: User | null;
-}
-
 const headerStyle: CSSProperties = {
   color: "white",
   padding: "20px",
@@ -60,10 +61,9 @@ const headerStyle: CSSProperties = {
   borderBottomLeftRadius: "30px",
 };
 
-export default function Header(props: Props) {
+function Header({ user, onSignIn, onSignOut, setSearchQuery }: HeaderProps) {
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [user, setUser] = useState<User | null>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate(); // Initialize navigate
 
@@ -71,22 +71,20 @@ export default function Header(props: Props) {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      console.log("User Loaded:", storedUser);
     }
   }, []);
 
   const handleSignIn = () => {
-    props.onSignIn();
-    if (props.user) {
-      localStorage.setItem("user", JSON.stringify(props.user)); // Save to localStorage
-      setUser(props.user);
+    onSignIn();
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user)); // Save to localStorage
     }
   };
 
   const handleSignOut = () => {
-    props.onSignOut();
+    onSignOut();
     localStorage.removeItem("user"); // Remove from localStorage
-    setUser(null);
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -114,6 +112,7 @@ export default function Header(props: Props) {
         </div>
         <img className="icohome" src={languageIcon} alt={t("language")} />
       </Box>
+
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Box sx={{ fontSize: "18px", color: "#eeecfe" }}>
           {t("hello")}, <img className="handico waving-hand" src={hand} alt="hand" />
@@ -137,7 +136,11 @@ export default function Header(props: Props) {
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase placeholder={t("search")} inputProps={{ "aria-label": "search" }} />
+          <StyledInputBase 
+            placeholder={t("search")} 
+            inputProps={{ "aria-label": "search" }} 
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </Search>
         <div>
           <Button
@@ -155,3 +158,5 @@ export default function Header(props: Props) {
     </header>
   );
 }
+
+export default Header;

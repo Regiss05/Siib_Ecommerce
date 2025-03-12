@@ -59,6 +59,7 @@ const axiosClient = axios.create({ baseURL: `${backendURL}`, timeout: 20000, wit
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const signIn = async () => {
     const scopes = ['username', 'payments'];
@@ -130,11 +131,12 @@ export default function Home() {
 
   return (
     <Box>
-      <Header user={user} onSignIn={signIn} onSignOut={signOut} />
+      <Header user={user} onSignIn={signIn} onSignOut={signOut} setSearchQuery={setSearchQuery} />
       <Cathegories />
       <ImageSlider />
       <Products />
-      <MyCard />
+      <MyCard searchQuery={searchQuery} />
+
       {/* <Footer /> */}
       {/* <Button onClick={signIn}>Sign in</Button>
       {/* <Route path="/" element={<ButtonSlider />} /> */}

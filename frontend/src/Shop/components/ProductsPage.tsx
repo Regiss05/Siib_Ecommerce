@@ -14,15 +14,14 @@ interface Product {
   availableStock: number;
   imageUrl: string;
   likes?: number;
-  createdAt: string; // Add createdAt field
+  createdAt: string;
 }
 
-const ProductsPage: React.FC = () => {
+const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch products from the backend
     fetch("http://localhost:8000/products")
       .then((res) => res.json())
       .then((data) => setProducts(data.products))
@@ -33,7 +32,6 @@ const ProductsPage: React.FC = () => {
     try {
       const res = await fetch(`http://localhost:8000/products/${id}/like`, { method: "POST" });
       const data = await res.json();
-
       setProducts(products.map((p) =>
         p._id === id ? { ...p, likes: data.likes } : p
       ));
@@ -42,17 +40,14 @@ const ProductsPage: React.FC = () => {
     }
   };
 
-  // Function to check if product is new
-  const isNewProduct = (createdAt: string) => {
-    const createdTime = new Date(createdAt).getTime();
-    const currentTime = new Date().getTime();
-    return (currentTime - createdTime) <= 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
-  };
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: '20px 20px 5rem 20px', gap: 2 }}>
       <Grid container spacing={3}>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <Grid item key={product._id} xs={6} sm={4} md={3} lg={2}>
             <Card sx={{ maxWidth: '100%', fontSize: '12px', position: 'relative', borderRadius: '10px', cursor: 'pointer' }}
               onClick={() => navigate(`/product/${product._id}`)}
@@ -70,23 +65,6 @@ const ProductsPage: React.FC = () => {
                 >
                   <FavoriteIcon />
                 </IconButton>
-
-                {/* Show "New" tag only if product is published within 5 days */}
-                {isNewProduct(product.createdAt) && (
-                  <Box sx={{
-                    position: 'absolute',
-                    top: 8,
-                    left: 0,
-                    backgroundColor: '#FF9A00',
-                    padding: '5px',
-                    color: 'white',
-                    borderTopRightRadius: '10px',
-                    borderBottomRightRadius: '10px',
-                  }}>
-                    New
-                  </Box>
-                )}
-
                 <Typography variant="h6" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{product.name}</Typography>
                 <Typography
                   variant="body2"
@@ -96,14 +74,13 @@ const ProductsPage: React.FC = () => {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     display: 'block',
-                    maxWidth: '100%', 
-                    fontsize: '10px',
+                    maxWidth: '100%',
+                    fontSize: '10px',
                     color: '#9d9d9d',
                   }}
                 >
                   {product.description}
                 </Typography>
-
                 <img src={onlinestore} alt="online store" />SIIB
                 <Typography variant="body1" sx={{ color: '#6030ff', fontSize: '16px', fontWeight: 'bold', margin: '5px auto' }}>
                   Price: {product.price} Pi
