@@ -27,7 +27,7 @@ const AddItem = () => {
     formData.append("image", imageFile);
   
     try {
-      const response = await fetch("http://localhost:8000/products/add", {
+      const response = await fetch("http://server.siibarnut.com/products/add", {
         method: "POST",
         body: formData,
       });

@@ -31,7 +31,7 @@ const ProductDetail: React.FC = () => {
 
   const handleLike = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/products/${id}/like`, { method: "POST" });
+      const res = await fetch(`http://server.siibarnut.com/products/${id}/like`, { method: "POST" });
       const data = await res.json();
 
       if (product) {
@@ -43,7 +43,7 @@ const ProductDetail: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8000/products/${id}`)
+    fetch(`http://server.siibarnut.com/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data.product);
@@ -117,7 +117,7 @@ const ProductDetail: React.FC = () => {
     });
   
     try {
-      const response = await fetch("http://localhost:8000/cart/add", {
+      const response = await fetch("http://server.siibarnut.com/cart/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const ProductDetail: React.FC = () => {
         <CardMedia
           component="img"
           height="280"
-          image={`http://localhost:8000${product.imageUrl}`}
+          image={`http://server.siibarnut.com${product.imageUrl}`}
           alt={product.name}
         />
         <CardContent className="product-detail" >

@@ -22,7 +22,7 @@ const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/products")
+    fetch("http://backend.siibarnut.com/products")
       .then((res) => res.json())
       .then((data) => setProducts(data.products))
       .catch((error) => console.error("Error fetching products:", error));
@@ -30,7 +30,7 @@ const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
 
   const handleLike = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8000/products/${id}/like`, { method: "POST" });
+      const res = await fetch(`http://backend.siibarnut.com/products/${id}/like`, { method: "POST" });
       const data = await res.json();
       setProducts(products.map((p) =>
         p._id === id ? { ...p, likes: data.likes } : p
@@ -55,7 +55,7 @@ const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
               <CardMedia
                 component="img"
                 height="88"
-                image={`http://localhost:8000${product.imageUrl}`}
+                image={`http://backend.siibarnut.com${product.imageUrl}`}
                 alt={product.name}
               />
               <CardContent sx={{ margin: 0, padding: 1 }}>

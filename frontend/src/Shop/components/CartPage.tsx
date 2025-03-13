@@ -44,7 +44,7 @@ const CartPage: React.FC = () => {
       console.log("Fetching cart for user:", userId); // Log the userId
 
       try {
-        const response = await fetch(`http://localhost:8000/api/cart/${userId}`); // Ensure the correct API endpoint
+        const response = await fetch(`http://server.siibarnut.com/api/cart/${userId}`); // Ensure the correct API endpoint
         const data = await response.json();
         console.log("Cart API Response:", data);
 
@@ -71,7 +71,7 @@ const CartPage: React.FC = () => {
       ) : (
         cartItems.map((item) => (
           <Card key={item._id} sx={{ display: "flex", marginBottom: "10px", padding: "10px" }}>
-            <CardMedia component="img" image={`http://localhost:8000${item.product.imageUrl}`} sx={{ width: 80, height: 80 }} />
+            <CardMedia component="img" image={`http://server.siibarnut.com/${item.product.imageUrl}`} sx={{ width: 80, height: 80 }} />
             <CardContent>
               <Typography>{item.product.name}</Typography>
               <Typography>Price: {item.product.price} Pi</Typography>
