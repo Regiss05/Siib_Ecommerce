@@ -78,42 +78,43 @@ const ChatScreen = () => {
   return (
     <Container maxWidth="sm" style={{ padding: 0 }}>
       <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar sx={{backgroundColor:'white',width:'100%',height:'55%'}}>
+        <Toolbar sx={{ backgroundColor: 'white', width: '100%', height: '55%' }}>
           <IconButton edge="start" color="inherit" aria-label="back">
             <ArrowBack />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ textAlign:'center'}}>
+          <Typography variant="h6" component="div" sx={{ textAlign: 'center' }}>
             Support Chat
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ flexGrow: 1, 
+      <Box sx={{
+        flexGrow: 1,
         height: 'calc(100vh - 112px)',
-         backgroundColor: '#f0f0f0', position: 'relative',
-          overflowY: 'auto',
-          backgroundImage:'url(https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg?w=740)',
-         backgroundPosition: 'center',
-      
-           backgroundSize: 'cover',
-    
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.90)', // Semi-transparent overlay
+        backgroundColor: '#f0f0f0', position: 'relative',
+        overflowY: 'auto',
+        backgroundImage: 'url(https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg?w=740)',
+        backgroundPosition: 'center',
 
-      },
-          }}>
+        backgroundSize: 'cover',
+
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.90)', // Semi-transparent overlay
+
+        },
+      }}>
         <Box sx={{
           textAlign: 'center',
           color: '#ccc',
           padding: 2,
         }}>
-        
+
         </Box>
 
         <List>
@@ -133,10 +134,10 @@ const ChatScreen = () => {
         </List>
       </Box>
 
-      <Box sx={{paddingBottom:'40px',width:'100%',textAlign:'center',borderRadius:'10px',borderBottomRightRadius:'7px',backgroundColor:'rgba(255, 255, 255, 0.94)'}}>
+      <Box sx={{ paddingBottom: '40px', width: '100%', textAlign: 'center', borderRadius: '10px', borderBottomRightRadius: '7px', backgroundColor: 'rgba(255, 255, 255, 0.94)' }}>
         <TextField
-         
-        
+
+
           placeholder="Type your message"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}

@@ -7,7 +7,6 @@ import Car from "../../imges/statics/Car.svg";
 import check from "../../imges/statics/check.svg";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import cart from "../../imges/statics/cart.svg";
-// import usenavigate from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 interface Product {
