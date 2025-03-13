@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Favorite from "./components/Favorite";
 import CartPage from "./components/CartPage";
+import Cart from "./components/CartPage";
 import Chat from "./components/Chat";
 import AddItem from "./components/AddItem";
 import CreateShop from "./components/CreateShop";
@@ -23,7 +24,7 @@ export default function App() {
         <Route path="/Checkout" element={<Checkout />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/product/:id" element={<ProductDetail />} /> {/* Add product details route */}
-        <Route path="/cart" element={<CartPage />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
       <Footer />
     </>

@@ -73,7 +73,7 @@ const ProductDetail: React.FC = () => {
       try {
         const user = JSON.parse(userData);
         console.log("Retrieved user from localStorage:", user);
-        return { 
+        return {
           userId: user.uid, // Extract `uid` and use it as `userId`
           username: user.username
         };
@@ -83,39 +83,25 @@ const ProductDetail: React.FC = () => {
       }
     }
     return null;
-  };  
-  
+  };
+
   // Example of using it in your React component:
   useEffect(() => {
     const user = getUserFromLocalStorage();
     if (user) {
       console.log("User details:", user);
     }
-  }, []);  
+  }, []);
 
   const addToCart = async () => {
     if (!product) return;
-  
+
     const user = getUserFromLocalStorage();
     if (!user || !user.userId) {
-      console.log("User ID not found.", user);
       alert("Please sign in to add items to your cart.");
       return;
     }
-  
-    console.log("Product added to cart:", {
-      userId: user.userId, // Now correctly using `uid`
-      username: user.username,
-      productId: product._id,
-      name: product.name,
-      description: product.description,
-      category: product.category,
-      price: product.price,
-      availableStock: product.availableStock,
-      imageUrl: product.imageUrl,
-      likes: product.likes,
-    });
-  
+
     try {
       const response = await fetch("http://localhost:8000/cart/add", {
         method: "POST",
@@ -123,12 +109,15 @@ const ProductDetail: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user.userId, // Fixed: now using `uid` as `userId`
+          userId: user.userId,
           productId: product._id,
+          name: product.name,
+          price: product.price,
+          imageUrl: product.imageUrl,
           quantity: 1,
         }),
       });
-  
+
       const data = await response.json();
       if (response.ok) {
         alert("Item added to cart!");
@@ -140,7 +129,7 @@ const ProductDetail: React.FC = () => {
       alert("Error adding to cart.");
     }
   };
-  
+
   if (!product) return <Typography>Loading...</Typography>;
 
   return (
