@@ -10,6 +10,7 @@ import CreateShop from "./components/CreateShop";
 import Footer from "./components/Footer";
 import Checkout from "./components/Checkout";
 import ProductDetail from "./components/ProductDetail";
+import PaymentPage from "./components/PaymentPage";
 
 export default function App() {
   // useTranslation(); // Ensure the useTranslation hook is called
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/product/:id" element={<ProductDetail />} /> {/* Add product details route */}
         <Route path="/cart" element={<Cart />} />
+        <Route path="/payment/:orderId" element={<PaymentPage />} />
       </Routes>
       <Footer />
     </>
