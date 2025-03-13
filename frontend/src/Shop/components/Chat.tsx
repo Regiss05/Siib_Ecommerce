@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -16,113 +16,150 @@ import {
   ListItemText,
   Paper,
   Avatar,
-} from '@mui/material';
+} from "@mui/material";
 import {
   ArrowBack,
   Image as ImageIcon,
   Home as HomeIcon,
-  FavoriteBorder as FavoriteIcon,
-  ShoppingCart as CartIcon,
   ChatBubble as ChatIcon,
-  AccountCircle as ProfileIcon,
   Send as SendIcon,
   SupportAgent as SupportIcon,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
+import axios from "axios";
+import io from "socket.io-client";
 
 interface Message {
+  _id?: string;
   text: string;
-  sender: 'user' | 'support';
+  senderId: string;
   timestamp: string;
 }
 
 const ChatScreen = () => {
-  const [value, setValue] = useState('chat');
+  const [value, setValue] = useState("chat");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
+  const userId = "65af3456789abcdef0123456";
+  const socket = useRef(io("http://localhost:8000"));
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      const userMessage: Message = {
-        text: newMessage,
-        sender: 'user',
-        timestamp: new Date().toLocaleTimeString(),
-      };
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setNewMessage('');
+  useEffect(() => {
+    fetchMessages();
+    connectWebSocket();
 
-      // Simulate support team response (replace with actual logic)
-      setTimeout(() => {
-        const supportResponse: Message = {
-          text: `Support: Thank you for your message! We'll get back to you shortly.`,
-          sender: 'support',
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        setMessages((prevMessages) => [...prevMessages, supportResponse]);
-      }, 1000); // Simulate 1-second delay
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/chat/messages");
+      setMessages(response.data.messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
     }
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const connectWebSocket = () => {
+    socket.current.on("connect", () => {
+      console.log("Connected to WebSocket server");
+    });
+
+    socket.current.on("newMessage", (message: Message) => {
+      console.log("New message received:", message);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { ...message, timestamp: message.timestamp.toString() },
+      ]);
+    });
+
+    socket.current.on("disconnect", () => {
+      console.log("Disconnected from WebSocket server");
+    });
+  };
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
+
+    try {
+      await axios.post("http://localhost:8000/chat/messages", {
+        senderId: userId,
+        text: newMessage,
+      });
+      setNewMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   return (
     <Container maxWidth="sm" style={{ padding: 0 }}>
       <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar sx={{backgroundColor:'white',width:'100%',height:'55%'}}>
+        <Toolbar sx={{ backgroundColor: "white", width: "100%", height: "55%" }}>
           <IconButton edge="start" color="inherit" aria-label="back">
             <ArrowBack />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ textAlign:'center'}}>
+          <Typography variant="h6" component="div" sx={{ textAlign: "center" }}>
             Support Chat
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ flexGrow: 1, 
-        height: 'calc(100vh - 112px)',
-         backgroundColor: '#f0f0f0', position: 'relative',
-          overflowY: 'auto',
-          backgroundImage:'url(https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg?w=740)',
-         backgroundPosition: 'center',
-      
-           backgroundSize: 'cover',
-    
-      '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.90)', // Semi-transparent overlay
-
-      },
-          }}>
-        <Box sx={{
-          textAlign: 'center',
-          color: '#ccc',
-          padding: 2,
-        }}>
-        
-        </Box>
-
+      <Box
+        sx={{
+          flexGrow: 1,
+          height: "calc(100vh - 112px)",
+          backgroundColor: "#f0f0f0",
+          position: "relative",
+          overflowY: "auto",
+          backgroundImage:
+            "url(https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg?w=740)",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(255, 255, 255, 0.90)",
+          },
+        }}
+      >
         <List>
           {messages.map((message, index) => (
-            <ListItem key={index} style={{ justifyContent: message.sender === 'user' ? 'flex-end' : 'flex-start' }}>
-              <Paper elevation={1} style={{ padding: '8px 12px', borderRadius: '20px', backgroundColor: message.sender === 'user' ? '#DCF8C6' : '#fff' }}>
-                <ListItemText primary={message.text} secondary={message.timestamp} style={{ textAlign: message.sender === 'user' ? 'right' : 'left' }} />
+            <ListItem
+              key={index}
+              style={{
+                justifyContent: message.senderId === userId ? "flex-end" : "flex-start",
+              }}
+            >
+              <Paper
+                elevation={1}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "20px",
+                  backgroundColor: message.senderId === userId ? "#DCF8C6" : "#fff",
+                }}
+              >
+                <ListItemText
+                  primary={message.text}
+                  secondary={new Date(message.timestamp).toLocaleTimeString()}
+                  style={{
+                    textAlign: message.senderId === userId ? "right" : "left",
+                  }}
+                />
               </Paper>
-              {message.sender === 'support' && (
+              {message.senderId !== userId && (
                 <Avatar sx={{ marginLeft: 1 }}>
                   <SupportIcon />
                 </Avatar>
@@ -133,15 +170,22 @@ const ChatScreen = () => {
         </List>
       </Box>
 
-      <Box sx={{paddingBottom:'40px',width:'100%',textAlign:'center',borderRadius:'10px',borderBottomRightRadius:'7px',backgroundColor:'rgba(255, 255, 255, 0.94)'}}>
+      <Box
+        sx={{
+          paddingBottom: "40px",
+          width: "100%",
+          textAlign: "center",
+          borderRadius: "10px",
+          borderBottomRightRadius: "7px",
+          backgroundColor: "rgba(255, 255, 255, 0.94)",
+        }}
+      >
         <TextField
-         
-        
           placeholder="Type your message"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               handleSendMessage();
             }
           }}
@@ -162,20 +206,12 @@ const ChatScreen = () => {
 
       <Divider />
 
-      <BottomNavigation
-        value={value}
-        onChange={handleChange}
-        showLabels
-      >
+      <BottomNavigation value={value} onChange={(event, newValue) => setValue(newValue)} showLabels>
         <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Favorite" value="favorite" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Cart" value="cart" icon={<CartIcon />} />
         <BottomNavigationAction label="Chat" value="chat" icon={<ChatIcon />} />
-        <BottomNavigationAction label="Profile" value="profile" icon={<ProfileIcon />} />
       </BottomNavigation>
     </Container>
   );
 };
 
 export default ChatScreen;
-

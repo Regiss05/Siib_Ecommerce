@@ -1,178 +1,70 @@
-import React, { useState } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Container,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  Avatar,
-  Divider,
-  Button,
-  Box,
-  Badge,
-  Rating,
-  ListItemIcon,
-} from '@mui/material';
-import { ArrowBack, Close, Store as StoreIcon } from '@mui/icons-material';
+// @ts-nocheck
 
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  shop: string;
-  rating: number;
-  image: string;
-}
+import React, { useState } from "react";
+import { useCart } from "../context/CartContext";
+import axios from "axios";
 
-const OrderSummary = () => {
-  const [orderItems, setOrderItems] = useState<Product[]>([
-    {
-      id: 1,
-      name: 'L9 MAX I9 Pro',
-      price: '0.5 Pi',
-      shop: 'SIIB Tanzania Shop',
-      rating: 4.5,
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      name: 'Hp Laptop',
-      price: '0.000205 Pi',
-      shop: 'SIIB Burundi Shop',
-      rating: 4.7,
-      image: 'https://via.placeholder.com/150',
-    },
-  ]);
+const Checkout = () => {
+  const { cart, totalPrice } = useCart();
+  const [shippingAddress, setShippingAddress] = useState("");
 
-  const handleRemoveItem = (id: number) => {
-    setOrderItems((prevItems) => prevItems.filter((item) => item.id !== id));
-  };
+  const tax = totalPrice * 0.18;
+  const shippingFee = totalPrice > 50 ? 0 : 5;
+  const finalTotal = totalPrice + tax + shippingFee;
 
-  const totalAmount = orderItems.reduce((acc, item) => acc + parseFloat(item.price.replace(' Pi', '')), 0);
-  const shippingFees = 0.000055;
-  const tax = 0.00004;
-  const total = totalAmount + shippingFees + tax;
+  const { setCart } = useCart();
+
+const handleCheckout = async () => {
+  const userData = localStorage.getItem("user");
+  if (!userData) {
+    alert("You must be logged in to checkout.");
+    return;
+  }
+
+  try {
+    const user = JSON.parse(userData);
+    const response = await axios.post("http://localhost:8000/cart/checkout", { userId: user.uid });
+
+    if (response.status === 200) {
+      console.log("Order ID:", response.data.orderId);
+
+      setCart([]);
+      localStorage.removeItem("cart");
+
+      alert("Checkout successful. Proceed to payment.");
+      window.location.href = `/payment/${response.data.orderId}`;
+    }
+  } catch (error) {
+    console.error("Checkout error:", error);
+    alert("Checkout failed. Please try again.");
+  }
+};
+
 
   return (
-    <Container maxWidth="sm">
-      <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="back">
-            <ArrowBack />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Order summary
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <div>
+      <h2>Order Summary</h2>
+      <div>
+        {cart.map((item) => (
+          <div key={item.productId}>
+            <p>{item.product?.name} x {item.quantity} - ${item.product?.price ? (item.product.price * item.quantity).toFixed(2) : "0.00"}</p>
+          </div>
+        ))}
+      </div>
+      <h3>Subtotal: ${totalPrice.toFixed(2)}</h3>
+      <h3>Tax (18%): ${tax.toFixed(2)}</h3>
+      <h3>Shipping: ${shippingFee.toFixed(2)}</h3>
+      <h2>Total: ${finalTotal.toFixed(2)}</h2>
 
-      <Paper elevation={3} sx={{ padding: 2, marginTop: 2 }}>
-        <List>
-          {orderItems.map((item) => (
-            <ListItem key={item.id} alignItems="flex-start" sx={{ border: '1px solid #e0e0e0', borderRadius: '4px', marginBottom: '8px' }}>
-              <ListItemAvatar>
-                <Avatar alt={item.name} src={item.image} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Box display="flex" justifyContent="space-between">
-                    <Typography variant="subtitle1">{item.name}</Typography>
-                    <IconButton edge="end" aria-label="close" onClick={() => handleRemoveItem(item.id)}>
-                      <Close />
-                    </IconButton>
-                  </Box>
-                }
-                secondary={
-                  <React.Fragment>
-                    <Box display="flex" alignItems="center">
-                      <ListItemIcon sx={{ minWidth: 'auto', marginRight: '8px' }}>
-                        <StoreIcon fontSize="small" />
-                      </ListItemIcon>
-                      <Typography component="span" variant="body2" color="text.primary">
-                        {item.shop}
-                      </Typography>
-                    </Box>
-                    {item.price}
-                  </React.Fragment>
-                }
-              />
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Rating name="read-only" value={item.rating} precision={0.5} readOnly size="small" />
-              </Box>
-            </ListItem>
-          ))}
-        </List>
+      <label>
+        Shipping Address:
+        <input type="text" value={shippingAddress} onChange={(e) => setShippingAddress(e.target.value)} />
+      </label>
 
-        <Divider sx={{ my: 2 }} />
-
-        <Box sx={{ marginBottom: 2 }}>
-          <Typography variant="body1"align="right">Username</Typography>
-          <Typography variant="body2"align="right">@avatar93</Typography>
-        </Box>
-
-        <Box sx={{ marginBottom: 2 }}>
-          <Typography variant="body1"align="right">Wallet</Typography>
-          <Typography variant="body2"align="right">DHY56FNCN456HDJ21</Typography>
-        </Box>
-
-        <Box sx={{ marginBottom: 2 }}>
-          <Typography variant="body1"align="right">Shipping Adress</Typography>
-          <Typography variant="body2"align="right">Burundi, Bujumbura, Ntahagwa</Typography>
-          <Button size="small" sx={{ marginLeft: 46 }}>
-            Edit
-          </Button>
-          <Typography component="span"> | </Typography>
-          <Button size="small">Remove</Button>
-        </Box>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Box sx={{ marginBottom: 1 }}>
-          <Typography variant="body1">Amount</Typography>
-          <Typography variant="body2" align="right">
-            {totalAmount.toFixed(6)} Pi
-          </Typography>
-        </Box>
-
-        <Box sx={{ marginBottom: 1 }}>
-          <Typography variant="body1">Items</Typography>
-          <Typography variant="body2" align="right">
-            {orderItems.length}
-          </Typography>
-        </Box>
-
-        <Box sx={{ marginBottom: 1 }}>
-          <Typography variant="body1">Shipping Fees</Typography>
-          <Typography variant="body2" align="right">
-            {shippingFees.toFixed(6)} Pi
-          </Typography>
-        </Box>
-
-        <Box sx={{ marginBottom: 1 }}>
-          <Typography variant="body1">Tax(18%)</Typography>
-          <Typography variant="body2" align="right">
-            {tax.toFixed(6)} Pi
-          </Typography>
-        </Box>
-
-        <Box sx={{ marginBottom: 2 }}>
-          <Typography variant="body1">Total</Typography>
-          <Typography variant="body2" align="right">
-            {total.toFixed(6)} Pi
-          </Typography>
-        </Box>
-
-        <Button variant="contained" fullWidth>
-          Confirm Payment
-        </Button>
-      </Paper>
-    </Container>
+      <button onClick={handleCheckout}>Confirm Order</button>
+    </div>
   );
 };
 
-export default OrderSummary;
+export default Checkout;
+

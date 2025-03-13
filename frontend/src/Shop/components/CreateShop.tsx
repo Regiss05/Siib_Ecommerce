@@ -14,6 +14,8 @@ import {
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import { ArrowBack } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 const countries = [
   {
@@ -62,18 +64,32 @@ const countries = [
 ];
 
 const CreateShop = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    country: 'Burundi',
-    shopName: '',
-    shopLogo: null, // Store the logo file
-    city: '',
-    phoneNumber: '',
-    document1: '',
-    document2: '',
-    document3: '',
+  const [formData, setFormData] = useState<{
+    fullName: string;
+    email: string;
+    country: string;
+    shopName: string;
+    shopLogo: File | null;
+    city: string;
+    phoneNumber: string;
+    document1: File | null;
+    document2: File | null;
+    document3: File | null;
+  }>({
+    fullName: "",
+    email: "",
+    country: "Burundi",
+    shopName: "",
+    shopLogo: null,
+    city: "",
+    phoneNumber: "",
+    document1: null, // ✅ Change from "" to null
+    document2: null, // ✅ Change from "" to null
+    document3: null, // ✅ Change from "" to null
   });
+
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -82,24 +98,72 @@ const CreateShop = () => {
 
   const selectedCountry = countries.find((country) => country.name === formData.country);
 
-  const handleDocumentUpload = (event, documentKey) => {
-    const file = event.target.files[0];
-    setFormData({ ...formData, [documentKey]: file });
+  const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setFormData((prev) => ({ ...prev, shopLogo: file }));
   };
 
-  const handleLogoUpload = (event) => {
-    const file = event.target.files[0];
-    setFormData({ ...formData, shopLogo: file });
+  const handleDocumentUpload = (event: React.ChangeEvent<HTMLInputElement>, documentKey: keyof typeof formData) => {
+    const file = event.target.files?.[0] || null;
+    setFormData((prev) => ({ ...prev, [documentKey]: file }));
   };
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(formData);
-    // Add your logic to submit the form data
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("fullName", formData.fullName);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("country", formData.country);
+    formDataToSend.append("shopName", formData.shopName);
+    formDataToSend.append("city", formData.city);
+    formDataToSend.append("phoneNumber", formData.phoneNumber);
+
+    if (formData.shopLogo) {
+      formDataToSend.append("shopLogo", formData.shopLogo);
+    }
+    if (formData.document1) {
+      formDataToSend.append("document1", formData.document1);
+    }
+    if (formData.document2) {
+      formDataToSend.append("document2", formData.document2);
+    }
+    if (formData.document3) {
+      formDataToSend.append("document3", formData.document3);
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/shops/add", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      enqueueSnackbar(response.data.message, { variant: "success" });
+
+      // Reset form after successful submission
+      setFormData({
+        fullName: "",
+        email: "",
+        country: "Burundi",
+        shopName: "",
+        shopLogo: null,
+        city: "",
+        phoneNumber: "",
+        document1: null,
+        document2: null,
+        document3: null,
+      });
+
+    } catch (error) {
+      console.error("Error creating shop:", error);
+      enqueueSnackbar("Failed to create shop", { variant: "error" });
+    }
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', p: 2 ,marginBottom:'69px'}}>
+    <Box sx={{ maxWidth: 400, mx: 'auto', p: 2, marginBottom: '69px' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <IconButton edge="start" color="inherit" aria-label="back">
           <ArrowBack />
@@ -164,7 +228,7 @@ const CreateShop = () => {
               <TextField
                 label="Logo Shop"
                 name="shopLogo"
-                value={formData.shopLogo ? formData.shopLogo:""} // Display filename
+                value={formData.shopLogo ? formData.shopLogo : ""} // Display filename
                 onChange={handleInputChange}
                 fullWidth
                 disabled
@@ -176,7 +240,7 @@ const CreateShop = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleLogoUpload}
-                    style={{ display: 'none' }}
+                    style={{ display: "none" }}
                   />
                 </IconButton>
               </Tooltip>
@@ -202,14 +266,18 @@ const CreateShop = () => {
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Phone number"
-              name="phoneNumber"
-              value={`${selectedCountry?.code || ''} ${formData.phoneNumber}`}
-              onChange={handleInputChange}
-              fullWidth
-
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ mr: 1, color: 'text.secondary' }}>
+                {selectedCountry?.code || ''}
+              </Box>
+              <TextField
+                label="Phone number"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Box>
           </Grid>
         </Grid>
 
@@ -219,10 +287,11 @@ const CreateShop = () => {
               label={document}
               name={`document${index + 1}`}
               value={
-                typeof formData[`document${index + 1}`] === 'object'
+                formData[`document${index + 1}`] instanceof File
                   ? formData[`document${index + 1}`].name
-                  : formData[`document${index + 1}`]
+                  : formData[`document${index + 1}`] || ""
               }
+
               onChange={handleInputChange}
               fullWidth
             />
@@ -232,17 +301,18 @@ const CreateShop = () => {
                 <input
                   type="file"
                   accept="image/*,.pdf"
-                  onChange={(event) => handleDocumentUpload(event, `document${index + 1}`)}
-                  style={{ display: 'none' }}
+                  onChange={(event) => handleDocumentUpload(event, `document${index + 1}` as "document1" | "document2" | "document3")}
+                  style={{ display: "none" }}
                 />
+
               </IconButton>
             </Tooltip>
           </Box>
         ))}
       </Box>
 
-      <Button  variant="contained" color="primary" onClick={handleSubmit} fullWidth >
-       Crate shop
+      <Button variant="contained" color="primary" onClick={handleSubmit} fullWidth >
+        Crate shop
       </Button>
     </Box>
   );

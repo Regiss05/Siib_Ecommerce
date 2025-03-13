@@ -1,87 +1,142 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material";
+import axios from "axios";
+import { useCart } from "../context/CartContext";
+import { Button, Box, Card, Typography, IconButton, CardMedia, CardContent } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
-interface CartItem {
-  _id: string;
-  product: {
-    _id: string;
-    name: string;
-    price: number;
-    imageUrl: string;
+const Cart = () => {
+  const { cart, setCart, removeFromCart, updateQuantity, totalPrice } = useCart();
+  const [loading, setLoading] = useState(true);
+  const [shopNames, setShopNames] = useState<{ [key: string]: string }>({});
+
+  const getUserFromLocalStorage = () => {
+    const userData = localStorage.getItem("user");
+    return userData ? JSON.parse(userData) : null;
   };
-  quantity: number;
-}
 
-const CartPage: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
-
-  // Retrieve userId from localStorage when the component mounts
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    console.log("Stored User:", storedUser);
-  
-    if (storedUser) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        console.log("Parsed User:", parsedUser);
-        setUserId(parsedUser.uid); // Correctly extract `uid`
-      } catch (error) {
-        console.error("Error parsing user data:", error);
-      }
-    } else {
-      console.log("No user found in localStorage.");
-    }
-  }, []);
-    // Fetch cart items when userId is available
   useEffect(() => {
     const fetchCart = async () => {
-      if (!userId) {
-        console.warn("User ID is missing. Skipping cart fetch.");
+      const user = getUserFromLocalStorage();
+      if (!user || !user.uid) {
+        console.log("User not found.");
         return;
       }
 
-      console.log("Fetching cart for user:", userId); // Log the userId
-
       try {
-        const response = await fetch(`http://localhost:8000/api/cart/${userId}`); // Ensure the correct API endpoint
-        const data = await response.json();
-        console.log("Cart API Response:", data);
-
-        if (data && Array.isArray(data.cartItems)) {
-          setCartItems(data.cartItems);
-        } else {
-          console.warn("Unexpected API response structure:", data);
-        }
+        const response = await axios.get(`http://localhost:8000/cart/${user.uid}`);
+        setCart(response.data.cart || []);
       } catch (error) {
         console.error("Error fetching cart:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCart();
-  }, [userId]); // Depend on `userId` from state
+  }, []);
 
+  useEffect(() => {
+    const fetchShopNames = async () => {
+    
+      const uniqueShopIds = Array.from(new Set(cart.map((item) => item.shopId).filter(Boolean)));
+    
+      console.log("Fetching shop names for:", uniqueShopIds);
+    
+      const shopNameMap: { [key: string]: string } = {};
+      await Promise.all(
+        uniqueShopIds.map(async (shopId) => {
+          try {
+            const response = await axios.get(`http://localhost:8000/shops/${shopId}`);
+            console.log(`Shop ${shopId} Response:`, response.data);
+            shopNameMap[shopId] = response.data.shop.shopName;
+          } catch (error) {
+            // @ts-ignore
+            console.error(`Error fetching shop ${shopId}:`, error.response?.data || error.message);
+            shopNameMap[shopId] = "Unknown Shop";
+          }
+        })
+      );
+    
+      setShopNames(shopNameMap);
+    };
+    
+    if (cart.length > 0) {
+      fetchShopNames();
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    console.log("Cart Data:", JSON.stringify(cart, null, 2));
+  }, [cart]);
 
   return (
-    <Box sx={{ padding: "20px" }}>
+    <Box sx={{ 
+      padding: "16px", 
+      backgroundColor: "#f5f5f5", 
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column"
+     }}
+     >
       <Typography variant="h4" sx={{ marginBottom: "20px" }}>My Cart</Typography>
-
-      {cartItems.length === 0 ? (
+      <Box>
+        <Typography variant="body2" sx={{ textAlign: "center", color: "#666", mb: 2 }}>
+          {cart.length} item{cart.length > 1 && 's'}
+        </Typography>
+      </Box>
+      
+      {loading ? (
+        <Typography>Loading cart...</Typography>
+      ) : cart.length === 0 ? (
         <Typography variant="h6">Your cart is currently empty. Start shopping now!</Typography>
       ) : (
-        cartItems.map((item) => (
-          <Card key={item._id} sx={{ display: "flex", marginBottom: "10px", padding: "10px" }}>
-            <CardMedia component="img" image={`http://localhost:8000${item.product.imageUrl}`} sx={{ width: 80, height: 80 }} />
+        <>
+        {cart.map((item) => (
+          <Card key={item.productId} sx={{ 
+            display: "flex", 
+            alignItems: "center", 
+            mb: 1, 
+            position: "relative",
+            borderRadius: 1,
+            py: 1.5,
+            px: 2
+          }}>
+            <CardMedia component="img" image={`http://localhost:8000${item.imageUrl}`} sx={{ minWidth: 110, maxWidth: 110, height: 80 }} />
+
             <CardContent>
-              <Typography>{item.product.name}</Typography>
-              <Typography>Price: {item.product.price} Pi</Typography>
-              <Typography>Quantity: {item.quantity}</Typography>
+              <Typography sx={{fontSize: '20px'}}>{item.name}</Typography>              
+              <Typography variant="caption" sx={{ color: "gray" }}>
+                {shopNames[item.shopId] || "Loading Shop..."}
+              </Typography>
             </CardContent>
+
+            <Box>
+              <Typography sx={{fontSize: '12px'}}>{item.price ? (item.price * item.quantity).toFixed(2) : "0.00"} Pi</Typography>
+              <input
+                type="number"
+                value={item.quantity}
+                onChange={(e) => updateQuantity(item.productId, parseInt(e.target.value))}
+                min="1"
+                style={{ width: "50px" }}
+              />
+            </Box>
+
+            <IconButton onClick={() => removeFromCart(item.productId)}>
+              <DeleteIcon />
+            </IconButton>
           </Card>
-        ))
+        ))}
+        </>
       )}
+      <h3>Total: ${totalPrice.toFixed(2)}</h3>
+      <Button variant="contained" color="primary" onClick={() => window.location.href = "/checkout"}>
+        Checkout
+      </Button>
     </Box>
   );
 };
 
-export default CartPage;
+export default Cart;
