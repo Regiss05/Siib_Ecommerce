@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Box, Typography, Card, CardMedia, CardContent, IconButton, Button } from "@mui/material";
@@ -7,8 +7,8 @@ import Car from "../../imges/statics/Car.svg";
 import check from "../../imges/statics/check.svg";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import cart from "../../imges/statics/cart.svg";
-// import usenavigate from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Product {
   _id: string;
@@ -27,13 +27,12 @@ const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [stockDisplay, setStockDisplay] = useState<string>("");
   const [showStockCount, setShowStockCount] = useState<boolean>(false);
-  const navigate = useNavigate(); // Initialize navigation
+  const navigate = useNavigate();
 
   const handleLike = async (id: string) => {
     try {
       const res = await fetch(`http://localhost:8000/products/${id}/like`, { method: "POST" });
       const data = await res.json();
-
       if (product) {
         setProduct({ ...product, likes: data.likes });
       }
@@ -62,7 +61,6 @@ const ProductDetail: React.FC = () => {
           prev === "Available" ? `${product.availableStock} in stock` : "Available"
         );
       }, 5000);
-
       return () => clearInterval(interval);
     }
   }, [product]);
@@ -72,11 +70,7 @@ const ProductDetail: React.FC = () => {
     if (userData) {
       try {
         const user = JSON.parse(userData);
-        console.log("Retrieved user from localStorage:", user);
-        return {
-          userId: user.uid, // Extract `uid` and use it as `userId`
-          username: user.username
-        };
+        return { userId: user.uid, username: user.username };
       } catch (error) {
         console.error("Error parsing user data:", error);
         return null;
@@ -85,7 +79,6 @@ const ProductDetail: React.FC = () => {
     return null;
   };
 
-  // Example of using it in your React component:
   useEffect(() => {
     const user = getUserFromLocalStorage();
     if (user) {
@@ -98,16 +91,14 @@ const ProductDetail: React.FC = () => {
 
     const user = getUserFromLocalStorage();
     if (!user || !user.userId) {
-      alert("Please sign in to add items to your cart.");
+      toast.error("Please sign in to add items to your cart.");
       return;
     }
 
     try {
       const response = await fetch("http://localhost:8000/cart/add", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: user.userId,
           productId: product._id,
@@ -120,13 +111,13 @@ const ProductDetail: React.FC = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Item added to cart!");
+        toast.success("Item added to cart!");
       } else {
-        alert(data.message || "Failed to add to cart.");
+        toast.error(data.message || "Failed to add to cart.");
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
-      alert("Error adding to cart.");
+      toast.error("Error adding to cart.");
     }
   };
 
@@ -134,6 +125,7 @@ const ProductDetail: React.FC = () => {
 
   return (
     <Box>
+      <ToastContainer position="top-right" autoClose={3000} />
       <Card sx={{ maxWidth: "600px", margin: 0, padding: 0, boxShadow: "none" }}>
         <CardMedia
           component="img"
@@ -141,7 +133,7 @@ const ProductDetail: React.FC = () => {
           image={`http://localhost:8000${product.imageUrl}`}
           alt={product.name}
         />
-        <CardContent className="product-detail" >
+        <CardContent className="product-detail">
           <IconButton
             sx={{
               backgroundColor: "white",
@@ -181,11 +173,11 @@ const ProductDetail: React.FC = () => {
                 <Typography sx={{ color: "#362FFF" }}>{product.category}</Typography>
               </Box>
             </Box>
-            {/* Stock Availability with Animation */}
+
             <motion.div
-              initial={{ x: "100%" }} // Start off-screen (right)
-              animate={{ x: 0 }} // Move into view
-              transition={{ duration: 0.5 }} // Smooth animation for sliding in
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              transition={{ duration: 0.5 }}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -196,7 +188,7 @@ const ProductDetail: React.FC = () => {
                 color: showStockCount ? "black" : "white",
                 fontWeight: "bold",
                 width: "fit-content",
-                transition: "background-color 0.5s ease", // Smooth transition for background color
+                transition: "background-color 0.5s ease",
                 fontSize: "18px",
               }}
             >
@@ -204,8 +196,10 @@ const ProductDetail: React.FC = () => {
               <Typography variant="body2">{stockDisplay}</Typography>
             </motion.div>
           </Box>
+
           <Typography variant="h6" sx={{ fontWeight: "bold", borderBottom: "1px solid #9d9d9d", paddingBottom: "10px" }}>{product.name}</Typography>
           <Typography variant="body1" sx={{ color: "#9d9d9d", marginTop: "10px" }}>{product.description}</Typography>
+
           <Box sx={{
             position: "absolute",
             paddingTop: "1rem",
@@ -214,7 +208,7 @@ const ProductDetail: React.FC = () => {
             display: "flex",
             justifyContent: "space-between",
             width: "100%",
-            boxShadow: "0px -4px 10px rgba(0, 0, 0, 0.1)" // Adds a shadow on top
+            boxShadow: "0px -4px 10px rgba(0, 0, 0, 0.1)"
           }}>
             <Box sx={{ marginLeft: "1rem" }}>
               Price:
@@ -227,7 +221,6 @@ const ProductDetail: React.FC = () => {
                 backgroundColor: "#0b21f5",
                 color: "white",
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
                 gap: "5px",
                 width: "11rem",
