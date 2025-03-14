@@ -21,6 +21,12 @@ const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
 
+  const isNewProduct = (createdAt: string) => {
+    const createdTime = new Date(createdAt).getTime();
+    const currentTime = new Date().getTime();
+    return (currentTime - createdTime) <= 5 * 24 * 2 * 60 * 1000; // 5 days in milliseconds
+  };
+
   useEffect(() => {
     fetch("http://localhost:8000/products")
       .then((res) => res.json())
@@ -65,6 +71,20 @@ const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
                 >
                   <FavoriteIcon />
                 </IconButton>
+                {isNewProduct(product.createdAt) && (
+                  <Box sx={{
+                    position: 'absolute',
+                    top: 8,
+                    left: 0,
+                    backgroundColor: '#FF9A00',
+                    padding: '5px',
+                    color: 'white',
+                    borderTopRightRadius: '10px',
+                    borderBottomRightRadius: '10px',
+                  }}>
+                    New
+                  </Box>
+                )}
                 <Typography variant="h6" sx={{ fontSize: '14px', fontWeight: 'bold' }}>{product.name}</Typography>
                 <Typography
                   variant="body2"
