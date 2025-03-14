@@ -19,7 +19,8 @@ export default function Footer() {
         navigate("/");
         break;
       case 1:
-        navigate("/CreateShop");
+        // navigate("/CreateShop");
+        navigate("/favorite");
         break;
       case 2:
         navigate("/add");

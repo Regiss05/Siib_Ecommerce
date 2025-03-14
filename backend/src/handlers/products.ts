@@ -91,5 +91,34 @@ export default function mountProductEndpoints(router: Router) {
       res.status(500).json({ message: "Internal Server Error" });
     }
   });
+
+  router.post("/:id/like", async (req, res) => {
+    const { id } = req.params;
+    const app = req.app;
+    const productCollection = app.locals.productCollection;
+  
+    try {
+      const product = await productCollection.findOne({ _id: new ObjectId(id) });
+  
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+  
+      const currentLikes = product.likes || 0; // Default to 0 if undefined
+      const newLikes = currentLikes > 0 ? 0 : 1; // Toggle like/dislike
+
+      await productCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { likes: newLikes } }
+      );
+  
+      // Respond with updated like status
+      res.status(200).json({ message: newLikes === 1 ? "Liked" : "Disliked", likes: newLikes });
+  
+    } catch (error) {
+      console.error("Error toggling like:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  });
 }
 

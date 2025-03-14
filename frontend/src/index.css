@@ -61,11 +61,11 @@ body {
 }
 
 
-.wallet{
+.wallet {
 
   padding: '20px';
   color: #FF9A00;
-  
+
 }
 
 .product-detail {
@@ -110,9 +110,68 @@ body {
 
 @keyframes slide {
   0% {
-    transform: translateX(-200px); /* Start off-screen */
+    transform: translateX(-200px);
+    /* Start off-screen */
   }
+
   100% {
-    transform: translateX(calc(100vw + 200px)); /* Move to the right edge of the screen */
+    transform: translateX(calc(100vw + 200px));
+    /* Move to the right edge of the screen */
   }
+}
+
+.selectform {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.selectform-content {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+::file-selector-button {
+  background-color: #FF9A00;
+  color: white;
+  padding: 8px !important;
+  outline: none;
+  border: none;
+}
+
+.form-det {
+  margin: 5px;
+  width: 96%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-container {
+  padding: 10px;
+}
+
+.form-content-silver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-product {
+  background-color: blue;
+  color: white;
+  padding: 8px !important;
+  outline: none;
+  border: none;
+  width: 100%;
+  margin-top: 10px;
 }
