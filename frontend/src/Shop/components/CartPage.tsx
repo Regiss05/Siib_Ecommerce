@@ -40,11 +40,11 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchShopNames = async () => {
-    
+
       const uniqueShopIds = Array.from(new Set(cart.map((item) => item.shopId).filter(Boolean)));
-    
+
       console.log("Fetching shop names for:", uniqueShopIds);
-    
+
       const shopNameMap: { [key: string]: string } = {};
       await Promise.all(
         uniqueShopIds.map(async (shopId) => {
@@ -59,10 +59,10 @@ const Cart = () => {
           }
         })
       );
-    
+
       setShopNames(shopNameMap);
     };
-    
+
     if (cart.length > 0) {
       fetchShopNames();
     }
@@ -73,65 +73,65 @@ const Cart = () => {
   }, [cart]);
 
   return (
-    <Box sx={{ 
-      padding: "16px", 
-      backgroundColor: "#f5f5f5", 
+    <Box sx={{
+      padding: "16px",
+      backgroundColor: "#f5f5f5",
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column"
-     }}
-     >
+    }}
+    >
       <Typography variant="h4" sx={{ marginBottom: "20px" }}>My Cart</Typography>
       <Box>
         <Typography variant="body2" sx={{ textAlign: "center", color: "#666", mb: 2 }}>
           {cart.length} item{cart.length > 1 && 's'}
         </Typography>
       </Box>
-      
+
       {loading ? (
         <Typography>Loading cart...</Typography>
       ) : cart.length === 0 ? (
         <Typography variant="h6">Your cart is currently empty. Start shopping now!</Typography>
       ) : (
         <>
-        {cart.map((item) => (
-          <Card key={item.productId} sx={{ 
-            display: "flex", 
-            alignItems: "center", 
-            mb: 1, 
-            position: "relative",
-            borderRadius: 1,
-            py: 1.5,
-            px: 2
-          }}>
-            <CardMedia component="img" image={`http://localhost:8000${item.imageUrl}`} sx={{ minWidth: 110, maxWidth: 110, height: 80 }} />
+          {cart.map((item) => (
+            <Card key={item.productId} sx={{
+              display: "flex",
+              alignItems: "center",
+              mb: 1,
+              position: "relative",
+              borderRadius: 1,
+              py: 1.5,
+              px: 2
+            }}>
+              <CardMedia component="img" image={`http://localhost:8000${item.imageUrl}`} sx={{ minWidth: 110, maxWidth: 110, height: 80 }} />
 
-            <CardContent>
-              <Typography sx={{fontSize: '20px'}}>{item.name}</Typography>              
-              <Typography variant="caption" sx={{ color: "gray" }}>
-                {shopNames[item.shopId] || "Loading Shop..."}
-              </Typography>
-            </CardContent>
+              <CardContent>
+                <Typography sx={{ fontSize: '20px' }}>{item.name}</Typography>
+                <Typography variant="caption" sx={{ color: "gray" }}>
+                  {shopNames[item.shopId] || "Loading Shop..."}
+                </Typography>
+              </CardContent>
 
-            <Box>
-              <Typography sx={{fontSize: '12px'}}>{item.price ? (item.price * item.quantity).toFixed(2) : "0.00"} Pi</Typography>
-              <input
-                type="number"
-                value={item.quantity}
-                onChange={(e) => updateQuantity(item.productId, parseInt(e.target.value))}
-                min="1"
-                style={{ width: "50px" }}
-              />
-            </Box>
+              <Box>
+                <Typography sx={{ fontSize: '12px' }}>{item.price ? (item.price * item.quantity).toFixed(2) : "0.00"} Pi</Typography>
+                <input
+                  type="number"
+                  value={item.quantity}
+                  onChange={(e) => updateQuantity(item.productId, parseInt(e.target.value))}
+                  min="1"
+                  style={{ width: "50px" }}
+                />
+              </Box>
 
-            <IconButton onClick={() => removeFromCart(item.productId)}>
-              <DeleteIcon />
-            </IconButton>
-          </Card>
-        ))}
+              <IconButton onClick={() => removeFromCart(item.productId)}>
+                <DeleteIcon />
+              </IconButton>
+            </Card>
+          ))}
         </>
       )}
-      <h3>Total: ${totalPrice.toFixed(2)}</h3>
+      <h3>Total: {totalPrice.toFixed(2)} Pi</h3>
       <Button variant="contained" color="primary" onClick={() => window.location.href = "/checkout"}>
         Checkout
       </Button>

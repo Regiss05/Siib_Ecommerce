@@ -117,9 +117,9 @@ const ChatScreen = () => {
         sx={{
           flexGrow: 1,
           height: "calc(100vh - 112px)",
-          backgroundColor: "#f0f0f0",
           position: "relative",
           overflowY: "auto",
+          backgroundColor: "rgba(255, 255, 255, 1)",
           backgroundImage:
             "url(https://img.freepik.com/premium-vector/social-networks-dating-apps-vector-seamless-pattern_341076-469.jpg?w=740)",
           backgroundPosition: "center",
@@ -131,7 +131,6 @@ const ChatScreen = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.90)",
           },
         }}
       >
@@ -177,10 +176,13 @@ const ChatScreen = () => {
           textAlign: "center",
           borderRadius: "10px",
           borderBottomRightRadius: "7px",
-          backgroundColor: "rgba(255, 255, 255, 0.94)",
+          backgroundColor: "rgba(255, 255, 255)",
+          position: "fixed",
+          bottom: '3rem',
         }}
       >
         <TextField
+          sx={{ width: "95%" }}
           placeholder="Type your message"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
