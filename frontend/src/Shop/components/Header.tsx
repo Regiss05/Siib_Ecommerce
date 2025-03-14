@@ -17,7 +17,7 @@ import IconButton from "@mui/material/IconButton";
 
 interface HeaderProps {
   user: User | null;
-  onSignIn: () => void;
+  onSignIn: (user: User) => void; // ✅ Ensure this accepts a User
   onSignOut: () => void;
   setSearchQuery: (query: string) => void;
 }
@@ -71,21 +71,26 @@ function Header({ user, onSignIn, onSignOut, setSearchQuery }: HeaderProps) {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      console.log("User Loaded:", storedUser);
+      try {
+        const parsedUser: User = JSON.parse(storedUser); // ✅ Ensure it matches the User type
+        onSignIn(parsedUser); // ✅ Pass a valid User object
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
     }
-  }, []);
+  }, [onSignIn]);
+  
 
   const handleSignIn = () => {
-    onSignIn();
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user)); // Save to localStorage
-    }
-  };
+    const userData: User = { uid: "12345", username: "testUser" }; // ✅ Replace with actual authentication logic
+    onSignIn(userData);
+    localStorage.setItem("user", JSON.stringify(userData)); // ✅ Store user in localStorage
+  };   
 
   const handleSignOut = () => {
     onSignOut();
-    localStorage.removeItem("user"); // Remove from localStorage
-  };
+    localStorage.removeItem("user"); // ✅ Remove user from localStorage
+  };  
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -125,7 +130,7 @@ function Header({ user, onSignIn, onSignOut, setSearchQuery }: HeaderProps) {
           </div>
         </Box>
         <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-          <IconButton onClick={() => navigate("/favorite")} sx={{ padding: 0 }}>
+          <IconButton onClick={() => navigate("/CreateShop")} sx={{ padding: 0 }}>
             <img className="icohome" src={shopsloc} alt="shopsloc" />
           </IconButton>
           <img className="icohome" src={locationshop} alt="sort" />

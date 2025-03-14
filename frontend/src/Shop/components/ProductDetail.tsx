@@ -159,6 +159,7 @@ const ProductDetail: React.FC = () => {
           </IconButton>
 
           <IconButton
+            onClick={() => navigate("/")}
             sx={{
               backgroundColor: "white",
               position: "absolute",

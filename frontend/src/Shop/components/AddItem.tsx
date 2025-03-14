@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
+import { FormControl } from "@mui/material";
+import { TextField } from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddItem = () => {
   const [name, setName] = useState("");
@@ -45,7 +50,7 @@ const AddItem = () => {
 
       const data = await response.json();
       if (response.ok) {
-        alert("Product added successfully!");
+        toast.success("Product added successfully!");
         setName("");
         setDescription("");
         setCategory("");
@@ -54,33 +59,73 @@ const AddItem = () => {
         setShopId("");
         setImageFile(null);
       } else {
-        alert(`Error: ${data.message}`);
+        toast.error(`Error: ${data.message}`);
       }
     } catch (error) {
       console.error("Error adding product:", error);
-      alert("Failed to add product.");
+      toast.error("Failed to add product.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-      <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-      <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} required />
-      <input type="number" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} required />
-      <input type="number" placeholder="Available Stock" value={availableStock} onChange={(e) => setAvailableStock(e.target.value)} required />
+    <div className="form-container">
+      <h3>Add Product</h3>
+      <div className="form-content-silver">
+        <form className="form-det" onSubmit={handleSubmit}>
+          <FormControl fullWidth sx={{ m: 1 }}>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Name"
+              multiline
+              maxRows={4}
+              value={name} onChange={(e) => setName(e.target.value)} required
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Description"
+              multiline
+              maxRows={4}
+              value={description} onChange={(e) => setDescription(e.target.value)} required
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Category"
+              multiline
+              maxRows={4}
+              value={category} onChange={(e) => setCategory(e.target.value)} required
+            />
+            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-amount"
+              startAdornment={<InputAdornment position="start">Pi</InputAdornment>}
+              label="Amount"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Available Stock"
+              type="number"
+              multiline
+              maxRows={4}
+              value={availableStock} onChange={(e) => setAvailableStock(e.target.value)} required
+            />
+          </FormControl>
+          <select className="selectform" value={shopId} onChange={(e) => setShopId(e.target.value)} required>
+            <option value="">Select a Shop</option>
+            {shops.map((shop) => (
+              // @ts-ignore
+              <option key={shop._id} value={shop._id}>{shop.shopName}</option>
+            ))}
+          </select>
 
-      <select value={shopId} onChange={(e) => setShopId(e.target.value)} required>
-        <option value="">Select a Shop</option>
-        {shops.map((shop) => (
-          // @ts-ignore
-          <option key={shop._id} value={shop._id}>{shop.shopName}</option>
-        ))}
-      </select>
-
-      <input type="file" accept="image/*" onChange={handleFileChange} required />
-      <button type="submit">Add Product</button>
-    </form>
+          <input type="file" accept="image/*" onChange={handleFileChange} required />
+          <button className="btn-product" type="submit">Add Product</button>
+        </form>
+        <ToastContainer /> {/* This will render the toast notifications */}
+      </div>
+    </div>
   );
 };
 
