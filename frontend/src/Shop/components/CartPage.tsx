@@ -92,7 +92,7 @@ const Cart = () => {
       ) : cart.length === 0 ? (
         <Typography variant="h6">Your cart is currently empty. Start shopping now!</Typography>
       ) : (
-        <Card sx={{ padding: "16px 24px" }}>
+        <Card sx={{ padding: "16px 24px", boxShadow: "none" }}>
           {cart.map((item) => (
             <Card key={item.productId} sx={{
               display: "flex",
@@ -106,7 +106,7 @@ const Cart = () => {
                 <Box sx={{ display: "flex", gap: "1px" }}>
                   <CardMedia component="img" image={`http://localhost:8000${item.imageUrl}`} sx={{ minWidth: 110, maxWidth: 110, height: 80 }} />
                   <CardContent>
-                    <Typography sx={{ fontSize: '20px' }}>{item.name}</Typography>
+                    <Typography sx={{ fontSize: '20px', color: "gray" }}>{item.name}</Typography>
                     <Typography variant="caption" sx={{ color: "#362FFF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "15px", gap: "5px", backgroundColor: "#EBE8E8", borderRadius: "8px", padding: "1px 5px" }}>
                       <img src={iconshop} alt="shop name" />{shopNames[item.shopId] || "Loading Shop..."}
                     </Typography>
@@ -139,12 +139,55 @@ const Cart = () => {
           ))}
         </Card>
       )}
-      <Box sx={{ position: "absolute", bottom: "5rem", left: 0 }}>
-        <h3>Amount: {totalPrice.toFixed(2)} Pi</h3>
-        <Button variant="contained" sx={{ backgroundColor: "#362FFF" }} onClick={() => window.location.href = "/checkout"}>
-          Checkout
-        </Button>
+      <Box sx={{ marginBottom: '17rem' }} />
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "4rem",
+          backgroundColor: "white",
+          width: "100%",
+          boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)",
+          paddingTop: "1rem",
+        }}
+      >
+        {/* Amount, Order Fees, Discount, and Total */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "5px", paddingX: "1rem", fontSize: "14px", color: "#666" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography>Amount:</Typography>
+            <Typography>{totalPrice.toFixed(2)} Pi</Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography>Order Fees (8%):</Typography>
+            <Typography>{(totalPrice * 0.08).toFixed(2)} Pi</Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography>Discount:</Typography>
+            <Typography>0 Pi</Typography>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", marginTop: "5px", color: "#FF9A00" }}>
+            <Typography sx={{ fontWeight: "bold" }}>Total:</Typography>
+            <Typography sx={{ fontWeight: "bold" }}>
+              {(totalPrice + totalPrice * 0.08).toFixed(2)} Pi
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* Centered button */}
+        <Box sx={{ display: "flex", justifyContent: "center", my: "1rem" }}>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#362FFF",
+              width: "55%",
+              padding: "10px",
+            }}
+            onClick={() => window.location.href = "/checkout"}
+          >
+            Checkout
+          </Button>
+        </Box>
       </Box>
+
     </Box>
   );
 };
