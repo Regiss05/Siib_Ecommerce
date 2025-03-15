@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
 import { Button, Box, Card, Typography, IconButton, CardMedia, CardContent } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import iconshop from "../../imges/statics/iconshop.svg";
 
 const Cart = () => {
   const { cart, setCart, removeFromCart, updateQuantity, totalPrice } = useCart();
@@ -43,26 +43,18 @@ const Cart = () => {
 
   useEffect(() => {
     const fetchShopNames = async () => {
-
       const uniqueShopIds = Array.from(new Set(cart.map((item) => item.shopId).filter(Boolean)));
-
-      console.log("Fetching shop names for:", uniqueShopIds);
-
       const shopNameMap: { [key: string]: string } = {};
       await Promise.all(
         uniqueShopIds.map(async (shopId) => {
           try {
             const response = await axios.get(`http://localhost:8000/shops/${shopId}`);
-            console.log(`Shop ${shopId} Response:`, response.data);
             shopNameMap[shopId] = response.data.shop.shopName;
           } catch (error) {
-            // @ts-ignore
-            console.error(`Error fetching shop ${shopId}:`, error.response?.data || error.message);
             shopNameMap[shopId] = "Unknown Shop";
           }
         })
       );
-
       setShopNames(shopNameMap);
     };
 
@@ -71,88 +63,88 @@ const Cart = () => {
     }
   }, [cart]);
 
-  useEffect(() => {
-    console.log("Cart Data:", JSON.stringify(cart, null, 2));
-  }, [cart]);
-
   return (
     <Box sx={{
-      padding: "16px",
-      backgroundColor: "#f5f5f5",
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column"
-    }}
-    >
+    }}>
       <IconButton
-        onClick={() => navigate(-1)} // Go back to the previous page
+        onClick={() => navigate(-1)}
         sx={{
           backgroundColor: "white",
           position: "absolute",
           top: 10,
           left: 10,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
           border: "1px solid #ddd",
         }}
       >
         <ArrowBackIosIcon />
       </IconButton>
-      <Typography variant="h4" sx={{ marginBottom: "20px", textAlign: "center" }}>My Cart</Typography>
-      <Box>
-        <Typography variant="body2" sx={{ textAlign: "center", color: "#666", mb: 2 }}>
+      <Typography sx={{ marginBottom: "20px", textAlign: "center", fontSize: "18px", marginTop: "20px" }}>My Cart</Typography>
+      <Box sx={{ backgroundColor: "#EBE8E8", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Typography sx={{ textAlign: "center", color: "#666" }}>
           {cart.length} item{cart.length > 1 && 's'}
         </Typography>
       </Box>
-
       {loading ? (
         <Typography>Loading cart...</Typography>
       ) : cart.length === 0 ? (
         <Typography variant="h6">Your cart is currently empty. Start shopping now!</Typography>
       ) : (
-        <>
+        <Card sx={{ padding: "16px 24px" }}>
           {cart.map((item) => (
             <Card key={item.productId} sx={{
               display: "flex",
               alignItems: "center",
-              mb: 1,
               position: "relative",
               borderRadius: 1,
-              py: 1.5,
-              px: 2
+              padding: "5px",
+              marginBottom: "10px",
             }}>
-              <CardMedia component="img" image={`http://localhost:8000${item.imageUrl}`} sx={{ minWidth: 110, maxWidth: 110, height: 80 }} />
-
-              <CardContent>
-                <Typography sx={{ fontSize: '20px' }}>{item.name}</Typography>
-                <Typography variant="caption" sx={{ color: "gray" }}>
-                  {shopNames[item.shopId] || "Loading Shop..."}
-                </Typography>
-              </CardContent>
-
-              <Box>
-                <Typography sx={{ fontSize: '12px' }}>{item.price ? (item.price * item.quantity).toFixed(2) : "0.00"} Pi</Typography>
-                <input
-                  type="number"
-                  value={item.quantity}
-                  onChange={(e) => updateQuantity(item.productId, parseInt(e.target.value))}
-                  min="1"
-                  style={{ width: "50px" }}
-                />
+              <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                <Box sx={{ display: "flex", gap: "1px" }}>
+                  <CardMedia component="img" image={`http://localhost:8000${item.imageUrl}`} sx={{ minWidth: 110, maxWidth: 110, height: 80 }} />
+                  <CardContent>
+                    <Typography sx={{ fontSize: '20px' }}>{item.name}</Typography>
+                    <Typography variant="caption" sx={{ color: "#362FFF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "15px", gap: "5px", backgroundColor: "#EBE8E8", borderRadius: "8px", padding: "1px 5px" }}>
+                      <img src={iconshop} alt="shop name" />{shopNames[item.shopId] || "Loading Shop..."}
+                    </Typography>
+                  </CardContent>
+                </Box>
+                <Box sx={{ marginRight: "5px" }}>
+                  <Typography sx={{ fontSize: '18px', color: "#362FFF", fontWeight: "bold", textAlign: "right" }}>{item.price ? (item.price * item.quantity).toFixed(2) : "0.00"} Pi</Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "#EBE8E8", borderRadius: "15px", px: "15px" }}>
+                    <IconButton sx={{ width: "5px", height: "5px" }} onClick={() => updateQuantity(item.productId, Math.max(1, item.quantity - 1))}>
+                      <RemoveIcon />
+                    </IconButton>
+                    <Typography sx={{ fontSize: '18px', margin: '0 8px' }}>{item.quantity}</Typography>
+                    <IconButton sx={{ width: "5px", height: "5px" }} onClick={() => updateQuantity(item.productId, item.quantity + 1)}>
+                      <AddIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
               </Box>
-
-              <IconButton onClick={() => removeFromCart(item.productId)}>
-                <DeleteIcon />
+              <IconButton
+                onClick={() => removeFromCart(item.productId)}
+                sx={{
+                  position: "absolute",
+                  top: "-4px",
+                  right: "-4px",
+                }}
+              >
+                <CloseIcon />
               </IconButton>
             </Card>
           ))}
-        </>
+        </Card>
       )}
-      <h3>Total: {totalPrice.toFixed(2)} Pi</h3>
-      <Button variant="contained" color="primary" onClick={() => window.location.href = "/checkout"}>
-        Checkout
-      </Button>
+      <Box sx={{ position: "absolute", bottom: "5rem", left: 0 }}>
+        <h3>Amount: {totalPrice.toFixed(2)} Pi</h3>
+        <Button variant="contained" sx={{ backgroundColor: "#362FFF" }} onClick={() => window.location.href = "/checkout"}>
+          Checkout
+        </Button>
+      </Box>
     </Box>
   );
 };
