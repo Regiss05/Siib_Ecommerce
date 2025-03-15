@@ -6,11 +6,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useParams, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cart, setCart, removeFromCart, updateQuantity, totalPrice } = useCart();
   const [loading, setLoading] = useState(true);
   const [shopNames, setShopNames] = useState<{ [key: string]: string }>({});
+  const navigate = useNavigate();
 
   const getUserFromLocalStorage = () => {
     const userData = localStorage.getItem("user");
@@ -81,7 +84,22 @@ const Cart = () => {
       flexDirection: "column"
     }}
     >
-      <Typography variant="h4" sx={{ marginBottom: "20px" }}>My Cart</Typography>
+      <IconButton
+        onClick={() => navigate(-1)} // Go back to the previous page
+        sx={{
+          backgroundColor: "white",
+          position: "absolute",
+          top: 10,
+          left: 10,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          border: "1px solid #ddd",
+        }}
+      >
+        <ArrowBackIosIcon />
+      </IconButton>
+      <Typography variant="h4" sx={{ marginBottom: "20px", textAlign: "center" }}>My Cart</Typography>
       <Box>
         <Typography variant="body2" sx={{ textAlign: "center", color: "#666", mb: 2 }}>
           {cart.length} item{cart.length > 1 && 's'}
