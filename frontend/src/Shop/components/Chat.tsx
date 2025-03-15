@@ -27,6 +27,8 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 interface Message {
   _id?: string;
@@ -40,6 +42,7 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const userId = "65af3456789abcdef0123456";
   const socket = useRef(io("http://localhost:8000"));
@@ -103,13 +106,14 @@ const ChatScreen = () => {
   return (
     <Container maxWidth="sm" style={{ padding: 0 }}>
       <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar sx={{ backgroundColor: "white", width: "100%", height: "55%" }}>
-          <IconButton edge="start" color="inherit" aria-label="back">
-            <ArrowBack />
+        <Toolbar sx={{ backgroundColor: "white", width: "100%", height: "55%", display: "flex", justifyContent: "center", alignItems: "center", position: "relative" }}>
+          <IconButton
+            onClick={() => navigate(-1)}
+            sx={{ backgroundColor: "white", position: "absolute", top: 10, left: 10, border: "1px solid #ddd" }}
+          >
+            <ArrowBackIosIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ textAlign: "center" }}>
-            Support Chat
-          </Typography>
+          <Typography sx={{ fontSize: "18px" }}>Chat</Typography>
         </Toolbar>
       </AppBar>
 
@@ -134,7 +138,7 @@ const ChatScreen = () => {
           },
         }}
       >
-        <List>
+        <List sx={{ marginBottom: "5rem" }}>
           {messages.map((message, index) => (
             <ListItem
               key={index}
@@ -196,9 +200,6 @@ const ChatScreen = () => {
               <InputAdornment position="end">
                 <IconButton onClick={handleSendMessage}>
                   <SendIcon />
-                </IconButton>
-                <IconButton>
-                  <ImageIcon />
                 </IconButton>
               </InputAdornment>
             ),

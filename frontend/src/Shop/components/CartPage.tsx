@@ -90,7 +90,7 @@ const Cart = () => {
       {loading ? (
         <Typography>Loading cart...</Typography>
       ) : cart.length === 0 ? (
-        <Typography variant="h6">Your cart is currently empty. Start shopping now!</Typography>
+        <Typography sx={{ textAlign: "center", padding: "20px", color: "#666" }}>To view your cart, please log in first. After logging in, add items to your cart to see them here.</Typography>
       ) : (
         <Card sx={{ padding: "16px 24px", boxShadow: "none" }}>
           {cart.map((item) => (
@@ -157,17 +157,13 @@ const Cart = () => {
             <Typography>{totalPrice.toFixed(2)} Pi</Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography>Order Fees (8%):</Typography>
-            <Typography>{(totalPrice * 0.08).toFixed(2)} Pi</Typography>
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography>Discount:</Typography>
-            <Typography>0 Pi</Typography>
+            <Typography>Order Fees (12%):</Typography>
+            <Typography>{(totalPrice * 0.12).toFixed(2)} Pi</Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", fontWeight: "bold", marginTop: "5px", color: "#FF9A00" }}>
             <Typography sx={{ fontWeight: "bold" }}>Total:</Typography>
             <Typography sx={{ fontWeight: "bold" }}>
-              {(totalPrice + totalPrice * 0.08).toFixed(2)} Pi
+              {(totalPrice + totalPrice * 0.12).toFixed(2)} Pi
             </Typography>
           </Box>
         </Box>
