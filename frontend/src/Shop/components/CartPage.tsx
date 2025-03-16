@@ -27,7 +27,7 @@ const Cart = () => {
         console.log("User not found.");
         return;
       }
-
+  
       try {
         const response = await axios.get(`http://localhost:8000/cart/${user.uid}`);
         setCart(response.data.cart || []);
@@ -37,9 +37,18 @@ const Cart = () => {
         setLoading(false);
       }
     };
-
+  
     fetchCart();
+  
+    // Listen for cart updates
+    const handleCartUpdate = () => fetchCart();
+    window.addEventListener("cartUpdated", handleCartUpdate);
+  
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+    };
   }, []);
+  
 
   useEffect(() => {
     const fetchShopNames = async () => {

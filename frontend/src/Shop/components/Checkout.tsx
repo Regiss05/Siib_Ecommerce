@@ -21,6 +21,11 @@ const Checkout = () => {
   const finalTotal = totalPrice + orderFees + tax; // Total = Amount + Order Fees + Tax
 
   const handleCheckout = async () => {
+    if (!shippingAddress.trim()) {
+      toast.error("Please enter your shipping address before confirming payment!");
+      return;
+    }
+
     const userData = localStorage.getItem("user");
     if (!userData) {
       toast.error("You must be logged in to checkout.");
@@ -72,7 +77,7 @@ const Checkout = () => {
           </Box>
         ))}
       </Box>
-      <Box component="form" sx={{ '& .MuiTextField-root': { m: 1, width: '100%' } }} noValidate autoComplete="on">
+      <Box component="form" sx={{ '& .MuiTextField-root': { my: 2, width: '100%' } }} noValidate autoComplete="on">
         <TextField
           id="filled-multiline-static"
           label="Shipping Address"
@@ -111,6 +116,7 @@ const Checkout = () => {
           Confirm Payment
         </Button>
       </Box>
+      <ToastContainer />
     </Box>
   );
 };

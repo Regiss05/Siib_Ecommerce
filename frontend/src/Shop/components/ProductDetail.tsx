@@ -88,13 +88,13 @@ const ProductDetail: React.FC = () => {
 
   const addToCart = async () => {
     if (!product) return;
-
+  
     const user = getUserFromLocalStorage();
     if (!user || !user.userId) {
       toast.error("Please sign in to add items to your cart.");
       return;
     }
-
+  
     try {
       const response = await fetch("http://localhost:8000/cart/add", {
         method: "POST",
@@ -108,10 +108,11 @@ const ProductDetail: React.FC = () => {
           quantity: 1,
         }),
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         toast.success("Item added to cart!");
+        window.dispatchEvent(new Event("cartUpdated")); // Notify other pages
       } else {
         toast.error(data.message || "Failed to add to cart.");
       }
@@ -120,6 +121,7 @@ const ProductDetail: React.FC = () => {
       toast.error("Error adding to cart.");
     }
   };
+  
 
   if (!product) return <Typography>Loading...</Typography>;
 
