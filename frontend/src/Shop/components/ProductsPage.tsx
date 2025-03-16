@@ -103,7 +103,7 @@ const ProductsPage: React.FC<{ searchQuery: string }> = ({ searchQuery }) => {
                 </Typography>
                 <img src={onlinestore} alt="online store" />SIIB
                 <Typography variant="body1" sx={{ color: '#6030ff', fontSize: '16px', fontWeight: 'bold', margin: '5px auto' }}>
-                  Price: {product.price} Pissss
+                  Price: {product.price} Pi
                 </Typography>
               </CardContent>
             </Card>
